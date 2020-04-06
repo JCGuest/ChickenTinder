@@ -1,11 +1,13 @@
 class GamesController < ApplicationController
 
-    def new_game
+    def new
         # raise params.inspect
         term = params[:term]
         location = params[:location]
-        render json: Game.new_game(term, location)
-        # render json: {hello: 'world'}
+        game = Game.new
+        # render json: game.new_game(term, location, players)
+        render json: game.new_game(term, location)
+    
     end
     
 end

@@ -11,7 +11,6 @@ SEARCH_LIMIT = 15
 def new_game(term, location)
     url = "#{API_HOST}#{SEARCH_PATH}"
     params = {
-    user: session[:user_id]  
     term: term,
     location: location,
     limit: SEARCH_LIMIT

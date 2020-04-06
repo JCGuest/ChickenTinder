@@ -7,17 +7,15 @@
 </head>
 <body>
     <form action="">
-        <input type="text" id="term">
-        <input type="text" id="location">
+        <label for="search-term">Search term</label>
+        <input for="search-term" type="text" id="term"><br>
+        <label for="location">Location</label>
+        <input for="location" type="text" id="location"><br>
+        <label for="players">Number of players</label>
+        <input form="players" type="number" id="players" min="1" max="10">
         <button type="submit" value="submit"></button>
     </form>
 
-    <form action="">
-        <label>Number of Players?</label>
-        <input type="number" id="players" min="1" max="10">
-        <input type="submit" value="submit">
-      </form>
-
-    <script src="index.js"></script>
+    <script src="./src/index.js"></script>
 </body>
 </html>
