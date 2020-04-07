@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2020_04_06_045255) do
   enable_extension "plpgsql"
 
   create_table "games", force: :cascade do |t|
+    t.string "matches"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -9,13 +9,13 @@ btn.addEventListener('click', (e) => {
     let searchLocation = loc.value
     let numPlayers = players.value
     let game = new Game(numPlayers, 
-    fetch(`http://localhost:3000/games/new?term=${searchTerm}&location=${searchLocation}`)
+    // fetch(`http://localhost:3000/games/search?term=${searchTerm}&location=${searchLocation}`)
+    fetch('http://localhost:3000/games/1')
     .then(response => {
         return response.json()
-        // console.log(response)
     })
     .then(json => {
-        console.log(Object.values(json))
+        console.log(json)
     })
     )
 
