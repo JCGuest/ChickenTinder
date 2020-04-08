@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
 has_many :users
+accepts_nested_attributes_for :users, reject_if: ->(attributes){ attributes['name'].blank? }, allow_destroy: true
 
 API_KEY = ENV['KEY']
 API_HOST = "https://api.yelp.com"
@@ -21,8 +22,9 @@ def self.search(term, location)
     end
 
     def user_attributes=(user_attributes)
-      user = User.find_or_create_by(user_attributes) unless user_attributes[:name].blank?
-      self.users.push(user)
+      user = User.find_by(user_attributes) unless user_attributes[:name].blank?
+      user.game_id = self.id 
+      user.save
     end
   end
 

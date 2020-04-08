@@ -27,7 +27,7 @@ class GamesController < ApplicationController
     private
 
     def game_params 
-        params.permit(:matches, :key, :user_attributes [:name])
+        params.permit(:matches, user_attributes: [:name, :id])
     end
     
 end

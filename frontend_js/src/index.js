@@ -23,7 +23,7 @@ btn.addEventListener('click', (e) => {
             'Content-Type': 'application/json'}
     }
 //create game
-    fetch('http://localhost:3000/games/create', gameConfig)
+    fetch(`http://localhost:3000/games/create`, gameConfig)
     .then(response => {
         return response.json()
     })
@@ -45,10 +45,4 @@ btn.addEventListener('click', (e) => {
 
 })
 
-    class Game {
-        constructor(players, yelps) {
-            this.players = players
-            this.yelps = yelps
-        }
-    }
 
