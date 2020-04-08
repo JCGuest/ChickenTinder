@@ -5,9 +5,10 @@ const players = document.querySelector("#players")
 
 btn.addEventListener('click', (e) => {
     e.preventDefault()
-    let searchTerm = term.value
-    let searchLocation = loc.value
-    let numPlayers = players.value
+    const searchTerm = term.value
+    const searchLocation = loc.value
+    const numPlayers = players.value
+    const name = "Name"
      
     // fetch(`http://localhost:3000/games/search?term=${searchTerm}&location=${searchLocation}`)
     const gameConfig = {
@@ -28,19 +29,21 @@ btn.addEventListener('click', (e) => {
     })
     .then(json => {
         let gameId  = json['data']['id']
+        return gameId
     })
 //create user
     .then(gameId => {
-        fetch(`http://localhost:3000/users/create?game_id=${gameId}`, userConfig)
+        fetch(`http://localhost:3000/users/create?game_id=${gameId}&name=${name}`, userConfig)
+        .then(response => {
+            return response.json()
+        })
+        .then(json => {
+            console.log(json)
+        })
     })
-    .then(response => {
-        return response.json()
-    })
-    .then(json => {
-        console.log(json)
-    })
+    
 
-
+})
 
     class Game {
         constructor(players, yelps) {

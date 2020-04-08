@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
     def create 
         user = User.new(name: params[:name])
-        user.game_id = session[:game_id]
+        user.game_id = params[:game_id]
         user.save 
         render json: UserSerializer.new(user)
     end
@@ -16,5 +16,6 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.permit(:game_id)
+        params.permit(:game_id, :name)
+    end
 end

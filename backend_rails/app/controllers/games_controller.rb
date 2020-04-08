@@ -8,18 +8,15 @@ class GamesController < ApplicationController
     end
 
     def create
-        game = Game.new
-        session[:game_id] = game.id
-        game.save
-        raise params.inspect
+        game = Game.create
         render json: GameSerializer.new(game)
     end
 
     def update 
-        raise params.inspect
-        # game = Game.find_by(id: params[:game_id])
-        # game.update(game_params)
-        # render json: GameSerializer.new(game)
+        # raise params.inspect
+        game = Game.find_by(id: params[:game_id])
+        game.update(game_params)
+        render json: GameSerializer.new(game)
     end
 
     def show
