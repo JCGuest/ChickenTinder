@@ -8,16 +8,21 @@ btn.addEventListener('click', (e) => {
     let searchTerm = term.value
     let searchLocation = loc.value
     let numPlayers = players.value
-    let game = new Game(numPlayers, 
+     
     // fetch(`http://localhost:3000/games/search?term=${searchTerm}&location=${searchLocation}`)
-    fetch('http://localhost:3000/games/1')
+    const config = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'}
+    }
+    fetch('http://localhost:3000/games/create', config)
     .then(response => {
         return response.json()
     })
     .then(json => {
         console.log(json)
     })
-    )
+    
 
     
     })
