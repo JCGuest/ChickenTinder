@@ -1,26 +1,50 @@
 body  {
+    background-image: url('backgrnd.png');
+    background-size: 100%;
+}
+
+div.main {
+    margin-left: 440px;
+    margin-top: 40px;
+    border-color: #A6082D;
+    width: 70%;
+    height: 2000px;
     background-color: #F2F0F1;
-    margin: 0 auto;
-    
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    border-style: solid;
+    text-align: center;
+    box-shadow: 1px 3px 7px #333;
+
+
+}
+
+/* logo */
+img {
+    transform: rotate(45deg);
+    width: 300px;
+    height: 300px;
+    /* margin-left: auto;
+    margin-right: auto;
+    margin-left: 300px;*/
+    margin-top: 100px; 
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #333;
+
 }
 
 label {
-    color: #A6082D;
+    background-color: #A6082D;
+    color: #F2F0F1;
     padding-left: 50px;
-    
-
-}
-
-
-div#players {
-     font-family: Arial, Helvetica, sans-serif;
-     font-size: large;
-     font-weight: 500;
-    } 
-
-div#search {
+    padding: 7px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: large;
+    font-weight: 500;
+    border-radius: 15px;
+    box-shadow: 1px 1px 4px #333;
+
 }
 
 input {
@@ -28,23 +52,13 @@ input {
     margin: 40px 0;
     border: 2px solid #A6082D;
     border-radius: 4px;
-    box-shadow: 1px 1px 1px #333;
+    box-shadow: 1px 1px 4px #333;
 }
 
 input[type=number] {
-    width: 5%;
+    width: 15%;
     box-shadow: 1px 1px 1px #333;
 }
 
-button.play {
-    background-color: #A6082D;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-}
+
 

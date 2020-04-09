@@ -7,26 +7,23 @@
     <link rel="stylesheet" type="text/css" href="./assets/styles.css">
 </head>
 <body >
-    <div align="center">
-    <img src="./assets/chicken-tinder-logo.png" />
-    <div id="search" style="margin-right: 10000;">
-        <form>
+    <div class='main'>
+        <img src="./assets/logo2.png" />
+        <br>
+        <br>
+        <br>
+        <div id="search" >
             <label for="term">What?</label>
-            <input for="term" type="text" id="term">
-            <label for="location">Where?</label>
-            <input for="location" type="text" id="location">
-        </form>
-    </div>
-    <div id="players">
-        <form>
-            <label for="players">Number of players</label>
-            <input for="players" type="number" name="players" min="1" max="10">
-        </form>
-    <div id='button'>
-        <button class="play">Play</button>
-    </div>    
-    </div>
-    <script src="./src/index.js"></script>
+                <input for="term" type="text" id="term" placeholder="  search term">
+                <label for="location">Where?</label>
+                <input for="location" type="text" id="location" placeholder="  city, zip...">
+                <label for="players">Players</label>
+                <input for="players" type="number" name="players" min="1" max="10" placeholder=" enter # of players">
+                <label>Next</label>
+        </div>
+
+        
+        <script src="./src/index.js"></script>
     </div>
 </body>
 </html>
