@@ -9,7 +9,7 @@ div.main {
     border-color: #A6082D;
     width: 70%;
     height: 2000px;
-    background-color: #F2F0F1;
+    background-color: rgb(248, 238, 220);
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
@@ -25,9 +25,6 @@ img {
     transform: rotate(45deg);
     width: 300px;
     height: 300px;
-    /* margin-left: auto;
-    margin-right: auto;
-    margin-left: 300px;*/
     margin-top: 100px; 
     border-radius: 15px;
     box-shadow: 2px 2px 5px #333;
@@ -53,6 +50,7 @@ input {
     border: 2px solid #A6082D;
     border-radius: 4px;
     box-shadow: 1px 1px 4px #333;
+    height: 28px;
 }
 
 input[type=number] {
@@ -60,5 +58,50 @@ input[type=number] {
     box-shadow: 1px 1px 1px #333;
 }
 
+button {
+    border-radius: 12px;
+    background-color: #A6082D;
+    height: 35px;
+    width: 55px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    font-weight: 500;
+    color: white;
+    box-shadow: 1px 1px 1px #333;
 
+}
+
+/* search results */
+div#yelp {
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    border-style: solid;
+    text-align: center;
+    width: 97%;
+    height: 99%;
+    border-color: #A6082D;
+    background-color: rgb(248, 238, 220);
+
+}
+
+div#yelp-wrap {
+    display: none;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    border-style: solid;
+    text-align: center;
+    width: 85%;
+    height: 900px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-color: #A6082D;
+    background-color: white;
+
+}
+
+div#user-info {
+    display: none;
+}
 

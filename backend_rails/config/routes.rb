@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-resources :games, controller: 'games', only: [:create, :update, :search, :show]
+resources :games, controller: 'games', only: [:create, :update, :show]
+get '/games/search', to: 'games#search'
 post '/games/create', to: 'games#create'
-patch '/games/:id', to: 'games#update'
+# patch '/games/:id', to: 'games#update'
 
 resources :users, controller: 'users', only: [:create, :update, :destroy] 
 post '/users/create', to: 'users#create'

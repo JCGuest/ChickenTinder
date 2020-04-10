@@ -14,13 +14,26 @@
         <br>
         <div id="search" >
             <label for="term">What?</label>
-                <input for="term" type="text" id="term" placeholder="  search term">
-                <label for="location">Where?</label>
-                <input for="location" type="text" id="location" placeholder="  city, zip...">
-                <label for="players">Players</label>
-                <input for="players" type="number" name="players" min="1" max="10" placeholder=" enter # of players">
-                <label>Next</label>
+            <input for="term" type="text" id="term" placeholder="  search term">
+            <label for="location">Where?</label>
+            <input for="location" type="text" id="location" placeholder="  city, zip...">
+            <label for="players">Players</label>
+            <input for="players" type="number" id="players" min="1" max="10" placeholder=" # of players">
+            <button id="next">Next</button>
         </div>
+        <div id='parent'>
+        <div id="user-info">
+            <label>Name</label>
+            <input id="player-1-name" type="text" placeholder=" player 1">
+            <!-- <button id="next-player">Next</button> -->
+        </div>
+        </div>
+        <div id="yelp-wrap">
+        <div id="yelp">
+
+        </div>
+        </div>
+
 
         
         <script src="./src/index.js"></script>

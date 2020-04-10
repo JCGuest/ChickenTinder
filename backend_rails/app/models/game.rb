@@ -19,7 +19,7 @@ def self.search(term, location)
   
     response = HTTP.auth("Bearer #{API_KEY}").get(url, params: params)
     return response.parse
-    end
+  end
 
     def user_attributes=(user_attributes)
       user = User.find_by(user_attributes) unless user_attributes[:name].blank?
