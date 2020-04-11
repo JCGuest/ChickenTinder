@@ -8,7 +8,7 @@ div.main {
     margin-top: 10%;
     border-color: #A6082D;
     width: 80%;
-    height: 2000px;
+    height: 2300px;
     background-color: rgb(248, 238, 220);
     margin-left: auto;
     margin-right: auto;
@@ -72,7 +72,7 @@ button {
 }
 
 /* search results */
-div#yelp {
+div#yelp-info {
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;
@@ -95,7 +95,7 @@ div#yelp-wrap {
     border-style: solid;
     text-align: center;
     width: 85%;
-    height: 900px;
+    height: 1500px;
     padding-top: 6px;
     padding-bottom: 6px;
     border-color: #A6082D;
@@ -114,10 +114,37 @@ div#image {
     border-style: solid;
     border-radius: 20px;
     margin-top: 4%;
-    margin-left: 4%;
-    width: 30%;
+    margin-left: 19%;
+    width: 60%;
     height: 20%;
     box-shadow: 1px 1px 4px #333;
-
+    background-size: 100%;
 }
 
+
+h1#title {
+    /* margin-left: 120%; */
+    margin-top: 10%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bolder;
+    font-size: 60px;
+}
+
+table#phone-address {
+    width: 70%;
+    margin-left: 18%;
+}
+
+img#star {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+table#star {
+    max-width: 15%;
+    margin-left: 40%;
+}
+
+th#rating {
+    font-size: 50px;
+}
