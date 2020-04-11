@@ -135,11 +135,17 @@ class Yelp {
         static gameId = 0
 }
 
-function yelpRender(i) {
-    if (!i) { i = 0}
+function yelpRender(i, player) {
+    if (i === Yelp.all.length ) {
+        // prompt new player
+        console.log('new player')
+    } else if (!i) {
+         i = 0}
 
     result = Yelp.all[i]
 
+    let playerNum = document.querySelector('h1#player')
+    playerNum.innerHTML = `Player #${player}`
     let title = document.querySelector('h1#title')
     title.innerHTML = result.name
     let img = document.querySelector('div#image')
@@ -160,7 +166,7 @@ function yelpRender(i) {
     let yelpDiv = document.querySelector('div#yelp-info')
 
     let thUp = document.querySelector('img#thumb-up')
-    let thDown = document.querySelector('img#thumd-down')
+    let thDown = document.querySelector('img#thumb-down')
 
     thUp.addEventListener('click', e => {
         const matchConfig = {
@@ -178,9 +184,13 @@ function yelpRender(i) {
         // if (i == Yelp.all.length-1) {
         //     matchesRender()
         // } else {
-        yelpRender(i+1)
+        yelpRender(i+1,1)
         // }
+
     })
+    thDown.addEventListener('click', e => {
+        yelpRender(i+1,1)
+        })
 
 };
 
@@ -190,7 +200,7 @@ function fetchy() {
         headers: {
             'Content-Type': 'application/json'}
     };
-    fetch(`http://localhost:3000/games/search?term=coffee&location=austin`, yelpConfig)
+    fetch(`http://localhost:3000/games/search?term=italian&location=new york, ny`, yelpConfig)
     .then(response => {
         return response.json()
         })
@@ -198,11 +208,11 @@ function fetchy() {
         return json['businesses']
         })
     .then(data => {
-        // console.log(data)
+        // let resutlsLength = Object.keys(data).length
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
-    yelpRender()       
+    yelpRender(0, 1)       
         })
     .catch(err => {
         console.log(err)
