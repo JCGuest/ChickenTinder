@@ -6,6 +6,7 @@ const userInfo = document.querySelector('form#user-info')
 userInfo.style['display'] = 'none'
 const yelps = document.querySelector('div#yelp-wrap')
 // yelps.style['display'] = 'none'
+const yelpInfo = document.querySelector('div#yelp-info')
 
 function toggleUserName() {
     if (userInfo.style['display'] == 'none') {
@@ -63,7 +64,7 @@ function createGame(gameId, numPlayers) {
         copy.querySelector('input').placeholder = ` player ${i+1}` 
         copy.querySelector('input').id = `player-${i+1}-name`
         playersArr.push(i)
-        }
+        };
     let playBtn = document.createElement('button')
     playBtn.innerHTML = "Play"
     userParent.appendChild(playBtn)
@@ -84,13 +85,14 @@ function createGame(gameId, numPlayers) {
          })
         .catch(err => {
             console.log(err)
-            })
+            });
         };
     toggleYelps();
     yelpFetch();
-    })
+    yelpRender(0);
+    });
 
-}
+};
 
 function yelpFetch() {
     const yelpConfig = {
@@ -107,7 +109,9 @@ function yelpFetch() {
         return json['businesses']
         })
     .then(data => {
-     console.log(data)
+        data.forEach( (yelp) => {
+            yelp = new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
+               })
         })
     .catch(err => {
         console.log(err)
@@ -115,11 +119,6 @@ function yelpFetch() {
 };
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
-let yelpsall = []
-function yelpClass(yelp, id) {
-    result = new Yelp(id, yelp['name'],yelp['url'],yelp['image-url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
-    yelpsall.push(result)
-}
 
 class Yelp {
     constructor(id, name, url, img, price, address, phone, rating ){
@@ -131,12 +130,29 @@ class Yelp {
         this.address = address
         this.phone = phone
         this.rating = rating
+        Yelp.all.push(this)
     }
+        static all = []
 }
 
-function yelpRender(yelp) {
-    console.log(yelp.id)
-}
+function yelpRender(i) {
+    if (!i) {
+        result = Yelp.all[0]}
+    else {
+        result = Yelp.all[i]
+    };
+    let title = document.querySelector('h1#title')
+    title.innerHTML = result.name
+    let img = document.querySelector('div#image')
+    img.style = `background-image: url(${result.img});`
+    let phone = document.querySelector('th#phone')
+    phone.innerHTML = result.phone
+    let address = document.querySelector('th#address')
+    address.innerHTML = result.address
+    let rating = document.querySelector('th#rating')
+    rating.innerHTML = `${result.rating}/5`
+
+};
 
 function fetchy() {
     const yelpConfig = {
@@ -152,11 +168,14 @@ function fetchy() {
         return json['businesses']
         })
     .then(data => {
-     data.forEach( (yelp, i) => {
-         yelpClass(yelp, i+1)
-            })
+        // console.log(data)
+        data.forEach( yelp => {
+            new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
+            })  
+    yelpRender(7)       
         })
     .catch(err => {
         console.log(err)
     })
-}
+    return "fetchy"
+};
