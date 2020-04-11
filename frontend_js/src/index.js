@@ -110,7 +110,7 @@ function yelpFetch() {
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
-        yelpRender(2)       
+        yelpRender()       
             })
     .catch(err => {
         console.log(err)
@@ -144,13 +144,13 @@ function yelpRender(i) {
     title.innerHTML = result.name
     let img = document.querySelector('div#image')
     img.style = `background-image: url(${result.img});`
-    let phone = document.querySelector('th#phone')
+    let phone = document.querySelector('td#phone')
     phone.innerHTML = result.phone
-    let address = document.querySelector('th#address')
+    let address = document.querySelector('td#address')
     address.innerHTML = result.address
-    let rating = document.querySelector('th#rating')
+    let rating = document.querySelector('td#rating')
     rating.innerHTML = `${result.rating}/5`
-    let price = document.querySelector('th#price')
+    let price = document.querySelector('td#price')
     price.innerHTML = result.price
     let url = document.querySelector('a#url')
     url.addEventListener('click', e => {
@@ -180,7 +180,7 @@ function fetchy() {
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
-    yelpRender(7)       
+    yelpRender(9)       
         })
     .catch(err => {
         console.log(err)
