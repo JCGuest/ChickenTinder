@@ -89,7 +89,6 @@ function createGame(gameId, numPlayers) {
         };
     toggleYelps();
     yelpFetch();
-    yelpRender(0);
     });
 
 };
@@ -105,14 +104,14 @@ function yelpFetch() {
         return response.json()
         })
     .then(json => {
-        // console.log(json)
         return json['businesses']
         })
     .then(data => {
-        data.forEach( (yelp) => {
-            yelp = new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
-               })
-        })
+        data.forEach( yelp => {
+            new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
+            })  
+        yelpRender(2)       
+            })
     .catch(err => {
         console.log(err)
     })
@@ -151,6 +150,15 @@ function yelpRender(i) {
     address.innerHTML = result.address
     let rating = document.querySelector('th#rating')
     rating.innerHTML = `${result.rating}/5`
+    let price = document.querySelector('th#price')
+    price.innerHTML = result.price
+    let url = document.querySelector('a#url')
+    url.addEventListener('click', e => {
+        e.preventDefault()
+        window.open(result.url)
+    })
+    let yelpDiv = document.querySelector('div#yelp-info')
+
 
 };
 

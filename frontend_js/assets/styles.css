@@ -82,6 +82,7 @@ div#yelp-info {
     height: 99%;
     border-color: #A6082D;
     background-color: rgb(248, 238, 220);
+    
 
 }
 
@@ -128,11 +129,15 @@ h1#title {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bolder;
     font-size: 60px;
+    color: white;
+    -webkit-text-stroke: 1px #A6082D;
 }
 
 table#phone-address {
     width: 70%;
-    margin-left: 18%;
+    margin-left: 13%;
+    font-size: large;
+    color: #A6082D;
 }
 
 img#star {
@@ -142,9 +147,30 @@ img#star {
 
 table#star {
     max-width: 15%;
-    margin-left: 40%;
+    margin-left: 43%;
 }
 
 th#rating {
     font-size: 50px;
+}
+
+th#price {
+    font-size: x-large;
+    color: rgb(3, 153, 60);
+}
+
+a {
+    color: #A6082D;
+    font-size: large;
+}
+
+img#thumb-up {
+    max-width: 90px;
+    max-height: 90px;
+    padding-left: 200px;
+}
+
+img#thumb-down {
+    max-width: 65px;
+    max-height: 65px;
 }
