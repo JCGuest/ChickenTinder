@@ -1,5 +1,8 @@
 class Game < ApplicationRecord
 has_many :users
+has_many :matches
+has_many :likes
+
 accepts_nested_attributes_for :users, reject_if: ->(attributes){ attributes['name'].blank? }, allow_destroy: true
 
 API_KEY = ENV['KEY']
@@ -26,5 +29,6 @@ def self.search(term, location)
       user.game_id = self.id 
       user.save
     end
+
   end
 
