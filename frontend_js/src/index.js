@@ -43,10 +43,10 @@ btnNext.addEventListener('click', (e) => {
         })
     .then(json => {
         const gameId  = json['data']['id']
+        Yelp.gameId = gameId
         return gameId
         })
     .then(gameId => {
-        console.log(gameId)
         createGame(gameId, playersInput)
         })
     
@@ -132,14 +132,14 @@ class Yelp {
         Yelp.all.push(this)
     }
         static all = []
+        static gameId = 0
 }
 
 function yelpRender(i) {
-    if (!i) {
-        result = Yelp.all[0]}
-    else {
-        result = Yelp.all[i]
-    };
+    if (!i) { i = 0}
+
+    result = Yelp.all[i]
+
     let title = document.querySelector('h1#title')
     title.innerHTML = result.name
     let img = document.querySelector('div#image')
@@ -159,6 +159,28 @@ function yelpRender(i) {
     })
     let yelpDiv = document.querySelector('div#yelp-info')
 
+    let thUp = document.querySelector('img#thumb-up')
+    let thDown = document.querySelector('img#thumd-down')
+
+    thUp.addEventListener('click', e => {
+        const matchConfig = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'}
+        };
+        fetch(`http://localhost:3000/likes?game_id=100&name=${result.name}&yelp_id=${result.id}?`, matchConfig)
+        .then(resp => {
+            return resp.json()
+        })
+        .then(json => {
+            console.log(json)
+        })
+        // if (i == Yelp.all.length-1) {
+        //     matchesRender()
+        // } else {
+        yelpRender(i+1)
+        // }
+    })
 
 };
 
@@ -180,7 +202,7 @@ function fetchy() {
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
-    yelpRender(9)       
+    yelpRender()       
         })
     .catch(err => {
         console.log(err)
