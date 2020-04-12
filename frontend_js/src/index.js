@@ -3,9 +3,13 @@ let loc = document.querySelector("#location")
 const btnNext = document.querySelector("button#next")
 let players = document.querySelector("input#players")
 const userInfo = document.querySelector('form#user-info')
+// toggle for testing
 userInfo.style['display'] = 'none'
+let readyBtn = document.querySelector('button#ready')
+readyBtn.style['display'] = 'none'
 const yelps = document.querySelector('div#yelp-wrap')
-// yelps.style['display'] = 'none'
+// toggle for testing
+yelps.style['display'] = 'none'
 const yelpInfo = document.querySelector('div#yelp-info')
 
 function toggleUserName() {
@@ -28,7 +32,7 @@ btnNext.addEventListener('click', (e) => {
     e.preventDefault()
     TERM = term.value
     LOC = loc.value
-    const playersInput = players.value
+    NUMPLAYERS = players.value
 
 //create game
     const gameConfig = {
@@ -47,7 +51,7 @@ btnNext.addEventListener('click', (e) => {
         return gameId
         })
     .then(gameId => {
-        createGame(gameId, playersInput)
+        createGame(gameId, NUMPLAYERS)
         })
     
 
@@ -110,11 +114,12 @@ function yelpFetch() {
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
-        yelpRender()       
+        yelpRender(0,1)       
             })
     .catch(err => {
         console.log(err)
     })
+    
 };
 //////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
@@ -136,10 +141,12 @@ class Yelp {
 }
 
 function yelpRender(i, player) {
-    if (!i) {i = 0}
-
+    if (player ===  NUMPLAYERS + 1) {
+        renderMatches();
+    } else { 
+    
     result = Yelp.all[i]
-
+    toggleYelpOn()
     let playerNum = document.querySelector('h1#player')
     playerNum.innerHTML = `Player #${player}`
     let title = document.querySelector('h1#title')
@@ -170,25 +177,76 @@ function yelpRender(i, player) {
             headers: {
                 'Content-Type': 'application/json'}
         };
-        fetch(`http://localhost:3000/likes?game_id=100&name=${result.name}&yelp_id=${result.id}`, matchConfig)
+        fetch(`http://localhost:3000/likes?game_id=${gameId}&name=${result.name}&yelp_id=${result.id}`, matchConfig)
         .then(resp => {
             return resp.json()
         })
-        .then(json => {
-            console.log(json)
+        .catch(err => {
+            console.log(err)
         })
         if (i === Yelp.all.length -1 ) {
-            newPlayer()
-        } else {yelpRender(i+1,1)}
+            newPlayer(player)
+        } else {yelpRender(i+1,player)}
     })
     thDown.addEventListener('click', e => {
         if (i === Yelp.all.length -1 ) {
-            newPlayer()
-        } else {yelpRender(i+1,1)}
+            newPlayer(player)
+        } else {yelpRender(i+1,player)}
         })
 
+    }
 };
 
+
+function newPlayer(player) {
+    toggleYelpOff()
+    let playerNum = document.querySelector('h1#player')
+    playerNum.innerHTML = `Next Player, ready?`
+    readyBtn.addEventListener('click', e => {
+        yelpRender(0, player+1)
+    })
+    
+}
+
+function toggleYelpOff() {
+    readyBtn.style['display'] = 'block'
+    let title = document.querySelector('h1#title')
+    title.style['display'] = 'none'
+    let img = document.querySelector('div#image')
+    img.style['display'] = 'none'
+    let table = document.querySelector('table#menu')
+    table.style['display'] = 'none'
+    let url = document.querySelector('a#url')
+    url.style['display'] = 'none'
+
+    let thUp = document.querySelector('img#thumb-up')
+    thUp.style['display'] = 'none'
+    let thDown = document.querySelector('img#thumb-down')
+    thDown.style['display'] = 'none'
+};
+
+function toggleYelpOn() {
+    readyBtn.style['display'] = 'none'
+    let title = document.querySelector('h1#title')
+    title.style['display'] = ''
+    let img = document.querySelector('div#image')
+    img.style['display'] = ''
+    let table = document.querySelector('table#menu')
+    table.style['display'] = ''
+    let url = document.querySelector('a#url')
+    url.style['display'] = ''
+
+    let thUp = document.querySelector('img#thumb-up')
+    thUp.style['display'] = ''
+    let thDown = document.querySelector('img#thumb-down')
+    thDown.style['display'] = ''
+};
+
+function renderMatches() {
+    console.log('render matches')
+}
+
+////////////
 function fetchy() {
     const yelpConfig = {
         method: "POST",
@@ -203,7 +261,6 @@ function fetchy() {
         return json['businesses']
         })
     .then(data => {
-        // let resutlsLength = Object.keys(data).length
         data.forEach( yelp => {
             new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
             })  
@@ -214,24 +271,3 @@ function fetchy() {
     })
     return "fetchy"
 };
-
-function newPlayer() {
-    let playerNum = document.querySelector('h1#player')
-    playerNum.innerHTML = `Next Player, ready?`
-    let title = document.querySelector('h1#title')
-    title.style['display'] = 'none'
-    let img = document.querySelector('div#image')
-    img.style['display'] = 'none'
-    let table = document.querySelector('table#menu')
-    table.style['display'] = 'none'
-    let url = document.querySelector('a#url')
-    url.addEventListener('click', e => {
-        e.preventDefault()
-        window.open(result.url)
-    })
-    let yelpDiv = document.querySelector('div#yelp-info')
-
-    let thUp = document.querySelector('img#thumb-up')
-    th
-    // let thDown = document.querySelector('img#thumb-down')
-}
