@@ -233,5 +233,5 @@ function newPlayer() {
 
     let thUp = document.querySelector('img#thumb-up')
     th
-    let thDown = document.querySelector('img#thumb-down')
+    // let thDown = document.querySelector('img#thumb-down')
 }
