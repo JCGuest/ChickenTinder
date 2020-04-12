@@ -136,11 +136,7 @@ class Yelp {
 }
 
 function yelpRender(i, player) {
-    if (i === Yelp.all.length ) {
-        // prompt new player
-        console.log('new player')
-    } else if (!i) {
-         i = 0}
+    if (!i) {i = 0}
 
     result = Yelp.all[i]
 
@@ -174,22 +170,21 @@ function yelpRender(i, player) {
             headers: {
                 'Content-Type': 'application/json'}
         };
-        fetch(`http://localhost:3000/likes?game_id=100&name=${result.name}&yelp_id=${result.id}?`, matchConfig)
+        fetch(`http://localhost:3000/likes?game_id=100&name=${result.name}&yelp_id=${result.id}`, matchConfig)
         .then(resp => {
             return resp.json()
         })
         .then(json => {
             console.log(json)
         })
-        // if (i == Yelp.all.length-1) {
-        //     matchesRender()
-        // } else {
-        yelpRender(i+1,1)
-        // }
-
+        if (i === Yelp.all.length -1 ) {
+            newPlayer()
+        } else {yelpRender(i+1,1)}
     })
     thDown.addEventListener('click', e => {
-        yelpRender(i+1,1)
+        if (i === Yelp.all.length -1 ) {
+            newPlayer()
+        } else {yelpRender(i+1,1)}
         })
 
 };
@@ -219,3 +214,24 @@ function fetchy() {
     })
     return "fetchy"
 };
+
+function newPlayer() {
+    let playerNum = document.querySelector('h1#player')
+    playerNum.innerHTML = `Next Player, ready?`
+    let title = document.querySelector('h1#title')
+    title.style['display'] = 'none'
+    let img = document.querySelector('div#image')
+    img.style['display'] = 'none'
+    let table = document.querySelector('table#menu')
+    table.style['display'] = 'none'
+    let url = document.querySelector('a#url')
+    url.addEventListener('click', e => {
+        e.preventDefault()
+        window.open(result.url)
+    })
+    let yelpDiv = document.querySelector('div#yelp-info')
+
+    let thUp = document.querySelector('img#thumb-up')
+    th
+    let thDown = document.querySelector('img#thumb-down')
+}
