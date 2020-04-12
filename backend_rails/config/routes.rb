@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 post '/games/search', to: 'games#search'
 post '/games/create', to: 'games#create'
 patch '/games/:id', to: 'games#update'
+get '/games/:id', to: 'games#show'
 
 #user
 post '/users/create', to: 'users#create'

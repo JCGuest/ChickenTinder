@@ -18,14 +18,14 @@ function toggleUserName() {
     } else {
         userInfo.style['display'] = 'none'
         }
-}
+};
 function toggleYelps() {
     if (yelps.style['display'] == 'none') {
         yelps.style['display'] = 'block'
     } else {
         yelps.style['display'] = 'none'
         }
-}
+};
 
 
 btnNext.addEventListener('click', (e) => {
@@ -85,7 +85,7 @@ function createGame(gameId, numPlayers) {
             return response.json()
             })
         .then(json => {
-            console.log("user json =>", json)
+            return json['data']
          })
         .catch(err => {
             console.log(err)
@@ -141,10 +141,6 @@ class Yelp {
 }
 
 function yelpRender(i, player) {
-    if (player - 1 === NUMPLAYERS) {
-        renderMatches();
-    } else { 
-    
     result = Yelp.all[i]
     toggleYelpOn()
     let playerNum = document.querySelector('h1#player')
@@ -173,12 +169,12 @@ function yelpRender(i, player) {
     let thDown = document.querySelector('img#thumb-down')
 
     thUp.addEventListener('click', e => {
-        const matchConfig = {
+        const likeConfig = {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'}
         };
-        fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, matchConfig)
+        fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
         .then(resp => {
             return resp.json()
         })
@@ -196,21 +192,35 @@ function yelpRender(i, player) {
         if (i === Yelp.all.length -1 ) {
             newPlayer(player)
         } else {yelpRender(i+1,player)}
-        })
-
-    }
+    })
 };
 
 
 function newPlayer(player) {
     toggleYelpOff()
+    if (player === NUMPLAYERS) {
+        renderMatches();
+    } else { 
     let playerNum = document.querySelector('h1#player')
     playerNum.innerHTML = `Player #${player+1}, ready?`
     readyBtn.addEventListener('click', e => {
         yelpRender(0, player+1)
+        })
+    }
+};
+
+function renderMatches() {
+    fetch(`http://localhost:3000/games/${Yelp.gameId}`)
+    .then(resp => {
+        return resp.json()
     })
-    
-}
+    .then(json => {
+        console.log(json)
+    })
+
+    let message = document.querySelector('h1#player')
+    message.innerHTML = "Round over"
+};
 
 function toggleYelpOff() {
     readyBtn.style['display'] = 'block'
@@ -245,10 +255,6 @@ function toggleYelpOn() {
     let thDown = document.querySelector('img#thumb-down')
     thDown.style['display'] = ''
 };
-
-function renderMatches() {
-    console.log('render matches')
-}
 
 ////////////
 function fetchy() {
