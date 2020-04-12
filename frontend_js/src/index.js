@@ -29,10 +29,10 @@ function toggleYelps() {
 
 
 btnNext.addEventListener('click', (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     TERM = term.value
     LOC = loc.value
-    NUMPLAYERS = players.value
+    NUMPLAYERS = parseInt(players.value)
 
 //create game
     const gameConfig = {
@@ -141,7 +141,7 @@ class Yelp {
 }
 
 function yelpRender(i, player) {
-    if (player ===  NUMPLAYERS + 1) {
+    if (player - 1 === NUMPLAYERS) {
         renderMatches();
     } else { 
     
@@ -162,6 +162,7 @@ function yelpRender(i, player) {
     let price = document.querySelector('td#price')
     price.innerHTML = result.price
     let url = document.querySelector('a#url')
+    url.innerHTML = `Go to ${result.name}'s website`
     url.addEventListener('click', e => {
         e.preventDefault()
         window.open(result.url)
@@ -177,9 +178,12 @@ function yelpRender(i, player) {
             headers: {
                 'Content-Type': 'application/json'}
         };
-        fetch(`http://localhost:3000/likes?game_id=${gameId}&name=${result.name}&yelp_id=${result.id}`, matchConfig)
+        fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, matchConfig)
         .then(resp => {
             return resp.json()
+        })
+        .then(json => {
+            return json['data']
         })
         .catch(err => {
             console.log(err)
@@ -201,7 +205,7 @@ function yelpRender(i, player) {
 function newPlayer(player) {
     toggleYelpOff()
     let playerNum = document.querySelector('h1#player')
-    playerNum.innerHTML = `Next Player, ready?`
+    playerNum.innerHTML = `Player #${player+1}, ready?`
     readyBtn.addEventListener('click', e => {
         yelpRender(0, player+1)
     })
