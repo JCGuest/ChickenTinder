@@ -59,7 +59,7 @@ btnNext.addEventListener('click', (e) => {
 function createGame(gameId, numPlayers) {
     toggleUserName()
     let playersArr = []
-    const userParent = document.querySelector('div#parent')
+    const userParent = document.querySelector('div#user-parent')
     for (let i=1; i<= numPlayers-1; i++) {
         let userInfo = document.querySelector('form#user-info')
         let copy = userInfo.cloneNode(true)
@@ -227,17 +227,40 @@ function newPlayer(player) {
 };
 
 function renderMatches() {
-    fetch(`http://localhost:3000/games/${Yelp.gameId}`)
-    .then(resp => {
-        return resp.json()
-    })
-    .then(json => {
-        console.log(json)
-    })
+    // fetch(`http://localhost:3000/games/${Yelp.gameId}`)
+    // .then(resp => {
+    //     return resp.json()
+    // })
+    // .then(json => {
+    //     console.log(json)
+    // })
+    let ready = document.querySelector('button#ready')
+    ready.style['display'] = "none"
+    let y = Yelp.matches(NUMPLAYERS)[0]
+    let matchParent = document.querySelector('div#match-parent')
+    matchParent.style['display'] = "block"
 
+    let winners = document.querySelector('div#match')
     let message = document.querySelector('h1#player')
     message.innerHTML = "Your Matches"
-    // console.log(Yelp.matches(NUMPLAYERS))
+    let img = document.querySelector('div#match-img')
+    img.style = `background-image: url(${y.img});`
+    let title = document.querySelector('h2#title')
+    title.innerHTML = y.name
+    let location = document.querySelector('p#location')
+    location.innerHTML = y.address
+    let price = document.querySelector('p#price')
+    price.innerHTML = y.price 
+    let rating = document.querySelector('p#rating')
+    rating.innerHTML = `${y.rating}/5`
+    let url = document.querySelector('a#result-url')
+    url.innerHTML = `Go to ${y.name}'s Yelp page`
+    url.href = y.url 
+
+    let copy = winners.cloneNode(true)
+    matchParent.appendChild(copy)
+    
+    
 
 };
 
