@@ -28,7 +28,7 @@ function toggleYelps() {
 };
 
 
-btnNext.addEventListener('click', (e) => {
+btnNext.addEventListener('click', function nex() {
     TERM = term.value
     LOC = loc.value
     NUMPLAYERS = parseInt(players.value)
@@ -52,7 +52,7 @@ btnNext.addEventListener('click', (e) => {
     .then(gameId => {
         createGame(gameId, NUMPLAYERS)
         })
-    
+    btnNext.removeEventListener('click', nex)
 
 })
 
@@ -64,8 +64,11 @@ function createGame(gameId, numPlayers) {
         let userInfo = document.querySelector('form#user-info')
         let copy = userInfo.cloneNode(true)
         userParent.appendChild(copy)
-        copy.querySelector('input').placeholder = ` player ${i+1}` 
-        copy.querySelector('input').id = `player-${i+1}-name`
+        let input =  copy.querySelector('input')
+        input.placeholder  = ` player ${i+1}`
+        input.id = `player-${i+1}-name`
+        // copy.querySelector('input').placeholder = ` player ${i+1}` 
+        // copy.querySelector('input').id = `player-${i+1}-name`
         playersArr.push(i)
         };
     let playBtn = document.createElement('button')
@@ -73,27 +76,38 @@ function createGame(gameId, numPlayers) {
     playBtn.innerHTML = "Play"
     userParent.appendChild(playBtn)
     USERARY = []
-    playBtn.addEventListener('click', e => {
-        const userConfig = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'}
-        };
-    for (let i=1; i <= playersArr.length + 1; i++){
-        let name = document.querySelector(`input#player-${i}-name`).value
-        fetch(`http://localhost:3000/users/create?game_id=${gameId}&name=${name}`, userConfig)
-        .then(response => {
-            return response.json()
+    playBtn.addEventListener('click', function playFunc() {
+        let validateNames = document.querySelectorAll('input.validate')
+        let invalid = []
+        validateNames.forEach(function(x) {
+            if (!x.value) {invalid.push(x)}
             })
-        .then(json => {
-            USERARY.push(json['data']['attributes']['name'])
-        })
-        .catch(err => {
-            console.log(err)
-            });
-        };
-    toggleYelps();
-    yelpFetch();
+        if (invalid[0]) {
+            alert(`Player name can not blank`)
+             invalid = []
+        } else {
+            const userConfig = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'}
+                };
+        for (let i=1; i <= playersArr.length + 1; i++){
+            let name = document.querySelector(`input#player-${i}-name`).value
+                fetch(`http://localhost:3000/users/create?game_id=${gameId}&name=${name}`, userConfig)
+                .then(response => {
+                    return response.json()
+                    })
+                .then(json => {
+                    USERARY.push(json['data']['attributes']['name'])
+                })
+                .catch(err => {
+                    console.log(err)
+                    });
+            };
+        playBtn.removeEventListener('click', playFunc)
+        toggleYelps();
+        yelpFetch();
+        }
     });
 
 };
@@ -181,21 +195,22 @@ function yelpRender(i, player) {
 
         function like() {
              result.likes = (result.likes + 1)            
-            //  const likeConfig = {
-            //      method: "POST",
-            //      headers: {
-            //          'Content-Type': 'application/json'}
-            //  };
-            //  fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
-            //  .then(resp => {
-            //      return resp.json()
-            //  })
-            //  .then(json => {
-            //      return json['data']
-            //  })
-            //  .catch(err => {
-            //      console.log(err)
-            //  })
+             const likeConfig = {
+                 method: "POST",
+                 headers: {
+                     'Content-Type': 'application/json'}
+             };
+             fetch(`http://localhost:3000/likes?username=${USERARY[player-1]}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
+             .then(resp => {
+                 return resp.json()
+             })
+             .then(json => {
+                //  console.log(json['data'])
+                return json 
+             })
+             .catch(err => {
+                 console.log(err)
+             })
              if (i === Yelp.all.length -1 ) {
                  newPlayer(player)
              } else {yelpRender(i+1,player)}
@@ -236,6 +251,7 @@ function renderMatches() {
     // })
     let ready = document.querySelector('button#ready')
     ready.style['display'] = "none"
+
     let y = Yelp.matches(NUMPLAYERS)[0]
     let matchParent = document.querySelector('div#match-parent')
     matchParent.style['display'] = "block"
@@ -257,11 +273,29 @@ function renderMatches() {
     url.innerHTML = `Go to ${y.name}'s Yelp page`
     url.href = y.url 
 
-    let copy = winners.cloneNode(true)
-    matchParent.appendChild(copy)
-    
-    
-
+    // let copy = winners.cloneNode(true)
+    // matchParent.appendChild(copy)
+    let allLikes = []
+    USERARY.forEach( x => {
+        fetch(`http://localhost:3000/users/name?name=${x}`)
+                .then(response => {
+                    return response.json()
+                    })
+                .then(json => {
+                    json['data']['attributes']['likes'].forEach(like => {
+                        allLikes.push(like.yelp_id)
+                    })
+                    return allLikes
+                })
+                .then(allLikes => {
+                    let count = {};
+                    allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+                    console.log(count)
+                })
+                .catch(err => {
+                    console.log(err)
+                    }); 
+    })
 };
 
 function toggleYelpOff() {
