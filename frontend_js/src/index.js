@@ -212,18 +212,26 @@ function yelpRender(i, player) {
                  console.log(err)
              })
              if (i === Yelp.all.length -1 ) {
-                 newPlayer(player)
-             } else {yelpRender(i+1,player)}
-        thUp.removeEventListener('click', like)
-        thDown.removeEventListener('click', dislike)
+                thUp.removeEventListener('click', like)
+                thDown.removeEventListener('click', dislike)
+                newPlayer(player)
+             } else {
+                thUp.removeEventListener('click', like)
+                thDown.removeEventListener('click', dislike)
+                yelpRender(i+1,player)
+             }
         }
 
         function dislike() {
             if (i === Yelp.all.length -1 ) {
+                thUp.removeEventListener('click', like)
+                thDown.removeEventListener('click', dislike)
                 newPlayer(player)
-            } else {yelpRender(i+1,player)}
-        thUp.removeEventListener('click', like)
-        thDown.removeEventListener('click', dislike)
+            } else {
+                thUp.removeEventListener('click', like)
+                thDown.removeEventListener('click', dislike)
+                yelpRender(i+1,player)
+            }
         }    
 };
 
@@ -275,7 +283,12 @@ function renderMatches() {
 
     // let copy = winners.cloneNode(true)
     // matchParent.appendChild(copy)
+    megaMatch()
+};
+
+function megaMatch() {
     let allLikes = []
+    let count = {};
     USERARY.forEach( x => {
         fetch(`http://localhost:3000/users/name?name=${x}`)
                 .then(response => {
@@ -288,15 +301,19 @@ function renderMatches() {
                     return allLikes
                 })
                 .then(allLikes => {
-                    let count = {};
                     allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
-                    console.log(count)
+                    // return count 
+                    renderMegamatch(count)
                 })
                 .catch(err => {
                     console.log(err)
                     }); 
     })
 };
+
+function renderMegamatch(obj) {
+    console.log(obj)
+}
 
 function toggleYelpOff() {
     readyBtn.style['display'] = 'block'
