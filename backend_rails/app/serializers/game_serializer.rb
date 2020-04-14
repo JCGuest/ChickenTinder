@@ -1,6 +1,5 @@
 class GameSerializer
   include FastJsonapi::ObjectSerializer
-  attributes :users, :likes
+  attributes :users
   has_many :users 
-  has_many :likes
 end

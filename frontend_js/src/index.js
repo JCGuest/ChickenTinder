@@ -72,6 +72,7 @@ function createGame(gameId, numPlayers) {
     playBtn.id = 'next'
     playBtn.innerHTML = "Play"
     userParent.appendChild(playBtn)
+    USERARY = []
     playBtn.addEventListener('click', e => {
         const userConfig = {
         method: 'POST',
@@ -85,8 +86,8 @@ function createGame(gameId, numPlayers) {
             return response.json()
             })
         .then(json => {
-            return json['data']
-         })
+            USERARY.push(json['data']['attributes']['name'])
+        })
         .catch(err => {
             console.log(err)
             });
@@ -153,7 +154,7 @@ function yelpRender(i, player) {
     result = Yelp.all[i]
     toggleYelpOn()
     let playerNum = document.querySelector('h1#player')
-    playerNum.innerHTML = `Player #${player}`
+    playerNum.innerHTML = `${USERARY[player-1]}`
     let title = document.querySelector('h1#title')
     title.innerHTML = result.name
     let img = document.querySelector('div#image')
@@ -180,21 +181,21 @@ function yelpRender(i, player) {
 
         function like() {
              result.likes = (result.likes + 1)            
-             const likeConfig = {
-                 method: "POST",
-                 headers: {
-                     'Content-Type': 'application/json'}
-             };
-             fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
-             .then(resp => {
-                 return resp.json()
-             })
-             .then(json => {
-                 return json['data']
-             })
-             .catch(err => {
-                 console.log(err)
-             })
+            //  const likeConfig = {
+            //      method: "POST",
+            //      headers: {
+            //          'Content-Type': 'application/json'}
+            //  };
+            //  fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
+            //  .then(resp => {
+            //      return resp.json()
+            //  })
+            //  .then(json => {
+            //      return json['data']
+            //  })
+            //  .catch(err => {
+            //      console.log(err)
+            //  })
              if (i === Yelp.all.length -1 ) {
                  newPlayer(player)
              } else {yelpRender(i+1,player)}
@@ -218,7 +219,7 @@ function newPlayer(player) {
         renderMatches();
     } else { 
     let playerNum = document.querySelector('h1#player')
-    playerNum.innerHTML = `Player #${player+1}, ready?`
+    playerNum.innerHTML = `${USERARY[player]}, ready?`
     readyBtn.addEventListener('click', e => {
         yelpRender(0, player+1)
         })
@@ -226,18 +227,18 @@ function newPlayer(player) {
 };
 
 function renderMatches() {
-    // fetch(`http://localhost:3000/games/${Yelp.gameId}`)
-    // .then(resp => {
-    //     return resp.json()
-    // })
-    // .then(json => {
-    //     console.log(json)
-    // })
+    fetch(`http://localhost:3000/games/${Yelp.gameId}`)
+    .then(resp => {
+        return resp.json()
+    })
+    .then(json => {
+        console.log(json)
+    })
 
     let message = document.querySelector('h1#player')
     message.innerHTML = "Your Matches"
-    console.log(Yelp.matches(NUMPLAYERS))
-    // console.log(Yelp.all)
+    // console.log(Yelp.matches(NUMPLAYERS))
+
 };
 
 function toggleYelpOff() {
