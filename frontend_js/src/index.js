@@ -29,7 +29,6 @@ function toggleYelps() {
 
 
 btnNext.addEventListener('click', (e) => {
-    // e.preventDefault()
     TERM = term.value
     LOC = loc.value
     NUMPLAYERS = parseInt(players.value)
@@ -70,6 +69,7 @@ function createGame(gameId, numPlayers) {
         playersArr.push(i)
         };
     let playBtn = document.createElement('button')
+    playBtn.id = 'next'
     playBtn.innerHTML = "Play"
     userParent.appendChild(playBtn)
     playBtn.addEventListener('click', e => {
@@ -111,8 +111,9 @@ function yelpFetch() {
         return json['businesses']
         })
     .then(data => {
+        Yelp.destroyAll()
         data.forEach( yelp => {
-            new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
+            new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'], 0)
             })  
         yelpRender(0,1)       
             })
@@ -121,11 +122,9 @@ function yelpFetch() {
     })
     
 };
-//////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////
 
 class Yelp {
-    constructor(id, name, url, img, price, address, phone, rating ){
+    constructor(id, name, url, img, price, address, phone, rating, likes ){
         this.id = id
         this.name = name
         this.url = url 
@@ -134,10 +133,20 @@ class Yelp {
         this.address = address
         this.phone = phone
         this.rating = rating
+        this.likes = likes
         Yelp.all.push(this)
     }
         static all = []
         static gameId = 0
+
+        static matches(numPlayers) {
+            const filterMatch = Yelp.all.filter( y => y.likes === numPlayers)
+                return filterMatch
+        }
+
+        static destroyAll() {
+            Yelp.all = []
+        }
 }
 
 function yelpRender(i, player) {
@@ -159,40 +168,47 @@ function yelpRender(i, player) {
     price.innerHTML = result.price
     let url = document.querySelector('a#url')
     url.innerHTML = `Go to ${result.name}'s website`
-    url.addEventListener('click', e => {
-        e.preventDefault()
-        window.open(result.url)
-    })
-    let yelpDiv = document.querySelector('div#yelp-info')
+        url.addEventListener('click', e => {
+            e.preventDefault()
+            window.open(result.url)
+        })
 
-    let thUp = document.querySelector('img#thumb-up')
-    let thDown = document.querySelector('img#thumb-down')
+        let thUp = document.querySelector('img#thumb-up')
+        let thDown = document.querySelector('img#thumb-down')
+        thUp.addEventListener('click', like)
+        thDown.addEventListener('click', dislike)
 
-    thUp.addEventListener('click', e => {
-        const likeConfig = {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'}
-        };
-        fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
-        .then(resp => {
-            return resp.json()
-        })
-        .then(json => {
-            return json['data']
-        })
-        .catch(err => {
-            console.log(err)
-        })
-        if (i === Yelp.all.length -1 ) {
-            newPlayer(player)
-        } else {yelpRender(i+1,player)}
-    })
-    thDown.addEventListener('click', e => {
-        if (i === Yelp.all.length -1 ) {
-            newPlayer(player)
-        } else {yelpRender(i+1,player)}
-    })
+        function like() {
+             result.likes = (result.likes + 1)            
+             const likeConfig = {
+                 method: "POST",
+                 headers: {
+                     'Content-Type': 'application/json'}
+             };
+             fetch(`http://localhost:3000/likes?game_id=${Yelp.gameId}&name=${result.name}&yelp_id=${result.id}`, likeConfig)
+             .then(resp => {
+                 return resp.json()
+             })
+             .then(json => {
+                 return json['data']
+             })
+             .catch(err => {
+                 console.log(err)
+             })
+             if (i === Yelp.all.length -1 ) {
+                 newPlayer(player)
+             } else {yelpRender(i+1,player)}
+        thUp.removeEventListener('click', like)
+        thDown.removeEventListener('click', dislike)
+        }
+
+        function dislike() {
+            if (i === Yelp.all.length -1 ) {
+                newPlayer(player)
+            } else {yelpRender(i+1,player)}
+        thUp.removeEventListener('click', like)
+        thDown.removeEventListener('click', dislike)
+        }    
 };
 
 
@@ -210,16 +226,18 @@ function newPlayer(player) {
 };
 
 function renderMatches() {
-    fetch(`http://localhost:3000/games/${Yelp.gameId}`)
-    .then(resp => {
-        return resp.json()
-    })
-    .then(json => {
-        console.log(json)
-    })
+    // fetch(`http://localhost:3000/games/${Yelp.gameId}`)
+    // .then(resp => {
+    //     return resp.json()
+    // })
+    // .then(json => {
+    //     console.log(json)
+    // })
 
     let message = document.querySelector('h1#player')
-    message.innerHTML = "Round over"
+    message.innerHTML = "Your Matches"
+    console.log(Yelp.matches(NUMPLAYERS))
+    // console.log(Yelp.all)
 };
 
 function toggleYelpOff() {
