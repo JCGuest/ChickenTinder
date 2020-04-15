@@ -8,7 +8,7 @@ get '/games/:id', to: 'games#show'
 #user
 post '/users/create', to: 'users#create'
 patch '/users/:id', to: 'users#update'
-get '/users/name', to: 'users#name'
+get '/users/likes', to: 'users#likes'
 
 #likes 
 post '/likes', to: 'likes#create'

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
         render json: UserSerializer.new(user)
     end
 
-    def name
+    def likes
         user = User.find_by(name: params[:name])
         render json: UserSerializer.new(user)
     end

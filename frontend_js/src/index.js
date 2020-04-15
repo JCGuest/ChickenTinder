@@ -98,6 +98,7 @@ function createGame(gameId, numPlayers) {
                     return response.json()
                     })
                 .then(json => {
+                    // console.log(json)
                     USERARY.push(json['data']['attributes']['name'])
                 })
                 .catch(err => {
@@ -263,10 +264,10 @@ function renderMatches() {
     let y = Yelp.matches(NUMPLAYERS)[0]
     let matchParent = document.querySelector('div#match-parent')
     matchParent.style['display'] = "block"
-
     let winners = document.querySelector('div#match')
     let message = document.querySelector('h1#player')
     message.innerHTML = "Your Matches"
+
     let img = document.querySelector('div#match-img')
     img.style = `background-image: url(${y.img});`
     let title = document.querySelector('h2#title')
@@ -281,29 +282,44 @@ function renderMatches() {
     url.innerHTML = `Go to ${y.name}'s Yelp page`
     url.href = y.url 
 
-    // let copy = winners.cloneNode(true)
-    // matchParent.appendChild(copy)
-    megaMatch()
+    for (let i = 1; i < NUMPLAYERS; i++) {
+    let y = Yelp.matches(NUMPLAYERS)[i]
+    // matchParent.style['display'] = "block"
+    let copy = winners.cloneNode(true)
+    matchParent.appendChild(copy)
+    let img = copy.querySelector('div#match-img')
+    img.style = `background-image: url(${y.img});`
+    let title = copy.querySelector('h2#title')
+    title.innerHTML = y.name
+    let location = copy.querySelector('p#location')
+    location.innerHTML = y.address
+    let price = copy.querySelector('p#price')
+    price.innerHTML = y.price 
+    let rating = copy.querySelector('p#rating')
+    rating.innerHTML = `${y.rating}/5`
+    let url = copy.querySelector('a#result-url')
+    url.innerHTML = `Go to ${y.name}'s Yelp page`
+    url.href = y.url 
+    }
+    // getAllLikes()
 };
 
-function megaMatch() {
+function getAllLikes() {
     let allLikes = []
-    let count = {};
-    USERARY.forEach( x => {
-        fetch(`http://localhost:3000/users/name?name=${x}`)
+    USERARY.forEach( (x, i) => {
+        fetch(`http://localhost:3000/users/likes?name=${x}`)
                 .then(response => {
                     return response.json()
                     })
                 .then(json => {
-                    json['data']['attributes']['likes'].forEach(like => {
-                        allLikes.push(like.yelp_id)
+                    json['data']['attributes']['likes'].forEach( like => {
+                        return like.yelp_id
                     })
-                    return allLikes
+                    return i
                 })
-                .then(allLikes => {
-                    allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
-                    // return count 
-                    renderMegamatch(count)
+                .then(i => {
+                    console.log(i)
+                    if (i === USERARY.length - 1) {renderMegamatch(allLikes)}
                 })
                 .catch(err => {
                     console.log(err)
@@ -311,8 +327,11 @@ function megaMatch() {
     })
 };
 
-function renderMegamatch(obj) {
-    console.log(obj)
+function renderMegamatch(allLikes) {
+    console.log(allLikes)
+    let count = {};
+    allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
+    console.log(count)
 }
 
 function toggleYelpOff() {
