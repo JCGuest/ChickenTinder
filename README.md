@@ -4,7 +4,7 @@ This is a "Tinder-style" application that would be used as a game for multiple p
 
 ## Getting Started
 
-The Rails backend is rendering a JSON format API that is fetched by the JavaScripted frontend. As well as running the migrations to start the database and starting a server using the ```rails s``` command
+The Rails backend is rendering a JSON format API that is fetched by the JavaScripted frontend. As well as running the migrations to start the database and starting a server using the ```rails s``` command you will need to obtain a key to be used in the ```app/models/game.rb``` class.  
 
 ### Prerequisites
 
