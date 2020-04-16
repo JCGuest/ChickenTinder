@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 const term = document.querySelector("#term")
 const loc = document.querySelector("#location")
 const btnNext = document.querySelector("button#next")
@@ -369,3 +370,4 @@ function toggleYelpOn() {
     const thDown = document.querySelector('img#thumb-down')
     thDown.style['display'] = ''
 };
+});

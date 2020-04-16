@@ -16,8 +16,6 @@ div.main {
     border-style: solid;
     text-align: center;
     box-shadow: 1px 3px 7px #333;
-
-
 }
 
 /* logo */
@@ -82,8 +80,6 @@ div#yelp-info {
     height: 99%;
     border-color: #A6082D;
     background-color: rgb(248, 238, 220);
-    
-
 }
 
 div#yelp-wrap {
@@ -97,14 +93,12 @@ div#yelp-wrap {
     border-style: solid;
     text-align: center;
     width: 85%;
-    height: 2500px;
+    height: 1500px;
     padding-top: 6px;
     padding-bottom: 6px;
     border-color: #A6082D;
     background-color: white;
     box-shadow: 1px 1px 4px #333;
-
-
 }
 
 div#user-info {
@@ -117,8 +111,7 @@ h1#title {
     font-weight: bolder;
     font-size: 60px;
     color: #A6082D;
-    -webkit-text-stroke: 1px black;
-    
+    -webkit-text-stroke: 1px black;  
 }
 
 h1#player {
@@ -128,7 +121,6 @@ h1#player {
     font-size: 60px;
     color: #A6082D;
     -webkit-text-stroke: 1px black;
-    
 }
 
 
@@ -167,7 +159,6 @@ img#thumb-down {
     max-width: 120px;
     max-height: 120px;
     padding-left: 50px;
-
 }
 
 td.item {
@@ -179,7 +170,6 @@ td.item {
     font-size: 36px;
     color: #A6082D;
     -webkit-text-stroke: 1px black;
-
 }
 
 td.right {
