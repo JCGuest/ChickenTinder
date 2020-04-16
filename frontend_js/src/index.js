@@ -244,8 +244,7 @@ function renderMatches() {
     } else { 
         let ready = document.querySelector('button#ready')
         ready.style['display'] = "none"
-        if (matches) {ifMatch()}
-
+        ifMatch()
         function ifMatch(){
             const y = matches[0]
             const matchParent = document.querySelector('div#match-parent')
@@ -271,7 +270,7 @@ function renderMatches() {
         }
 
         function ifMatches(winners, matchParent) {
-            for (let i = 1; i < NUMPLAYERS; i++) {
+            for (let i = 1; i <= NUMPLAYERS; i++) {
                 let y = matches[i]
                 // matchParent.style['display'] = "block"
                 let copy = winners.cloneNode(true)
@@ -292,7 +291,7 @@ function renderMatches() {
             };
         };
     };
-    // getAllLikes();
+    getAllLikes();
 };
 
 function noMatch() {
@@ -334,7 +333,7 @@ function renderMegamatch(allLikes) {
     console.log(allLikes)
     const count = {};
     allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
-    console.log(count)
+    // console.log(count)
 }
 
 function toggleYelpOff() {
