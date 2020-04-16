@@ -1,11 +1,11 @@
-let term = document.querySelector("#term")
-let loc = document.querySelector("#location")
+const term = document.querySelector("#term")
+const loc = document.querySelector("#location")
 const btnNext = document.querySelector("button#next")
-let players = document.querySelector("input#players")
+const players = document.querySelector("input#players")
 const userInfo = document.querySelector('form#user-info')
 // toggle for testing
 userInfo.style['display'] = 'none'
-let readyBtn = document.querySelector('button#ready')
+const readyBtn = document.querySelector('button#ready')
 readyBtn.style['display'] = 'none'
 const yelps = document.querySelector('div#yelp-wrap')
 // toggle for testing
@@ -42,25 +42,7 @@ btnNext.addEventListener('click', function nex() {
         LOC = loc.value
         NUMPLAYERS = parseInt(players.value)
         createGame()
-        //create game
-        // const gameConfig = {
-        // method: 'POST',
-        // headers: {
-        //     'Content-Type': 'application/json'}
-        //     };
-        // fetch(`http://localhost:3000/games/create`, gameConfig)
-        // .then(response => {
-        //     return response.json()
-        //     })
-        // .then(json => {
-        //     const gameId  = json['data']['id']
-        //     Yelp.gameId = gameId
-        //     return gameId
-        //     })
-        // .then(gameId => {
-        //     createGame(gameId)
-        //     })
-    }
+    };
 })
 
 function createGame() {
@@ -74,14 +56,14 @@ function createGame() {
         input.placeholder  = ` player ${i+1}`
         input.id = `player-${i+1}-name`
         };
-    let playBtn = document.createElement('button')
+    const playBtn = document.createElement('button')
     playBtn.id = 'next'
     playBtn.innerHTML = "Play"
     userParent.appendChild(playBtn)
     USERARY = []
     playBtn.addEventListener('click', function playFunc() {
-        let validateNames = document.querySelectorAll('input.validate')
-        let invalid = []
+        const validateNames = document.querySelectorAll('input.validate')
+        const invalid = []
         validateNames.forEach(function(x) {
             if (!x.value) {invalid.push(x)}
             })
@@ -137,7 +119,7 @@ function yelpFetch() {
             })
     .catch(err => {
         console.log(err)
-    })
+    });
     
 };
 
@@ -153,46 +135,46 @@ class Yelp {
         this.rating = rating
         this.likes = likes
         Yelp.all.push(this)
-    }
+    };
         static all = []
         static gameId = 0
 
         static matches(numPlayers) {
             const filterMatch = Yelp.all.filter( y => y.likes === numPlayers)
                 return filterMatch
-        }
+        };
 
         static destroyAll() {
             Yelp.all = []
-        }
-}
+        };
+};
 
 function yelpRender(i, player) {
     result = Yelp.all[i]
     toggleYelpOn()
-    let playerNum = document.querySelector('h1#player')
+    const playerNum = document.querySelector('h1#player')
     playerNum.innerHTML = `${USERARY[player-1]}`
-    let title = document.querySelector('h1#title')
+    const title = document.querySelector('h1#title')
     title.innerHTML = result.name
-    let img = document.querySelector('div#image')
+    const img = document.querySelector('div#image')
     img.style = `background-image: url(${result.img});`
-    let phone = document.querySelector('td#phone')
+    const phone = document.querySelector('td#phone')
     phone.innerHTML = result.phone
-    let address = document.querySelector('td#address')
+    const address = document.querySelector('td#address')
     address.innerHTML = result.address
-    let rating = document.querySelector('td#rating')
+    const rating = document.querySelector('td#rating')
     rating.innerHTML = `${result.rating}/5`
-    let price = document.querySelector('td#price')
+    const price = document.querySelector('td#price')
     price.innerHTML = result.price
-    let url = document.querySelector('a#url')
+    const url = document.querySelector('a#url')
     url.innerHTML = `Go to ${result.name}'s website`
         url.addEventListener('click', e => {
             e.preventDefault()
             window.open(result.url)
-        })
+        });
 
-        let thUp = document.querySelector('img#thumb-up')
-        let thDown = document.querySelector('img#thumb-down')
+        const thUp = document.querySelector('img#thumb-up')
+        const thDown = document.querySelector('img#thumb-down')
         thUp.addEventListener('click', like)
         thDown.addEventListener('click', dislike)
 
@@ -213,7 +195,7 @@ function yelpRender(i, player) {
              })
              .catch(err => {
                  console.log(err)
-             })
+             });
              function newOrRender(i, player) {
                 if (i === Yelp.all.length -1 ) {
                     thUp.removeEventListener('click', like)
@@ -223,9 +205,9 @@ function yelpRender(i, player) {
                     thUp.removeEventListener('click', like)
                     thDown.removeEventListener('click', dislike)
                     yelpRender(i+1,player)
-                }
-            }
-        }
+                };
+            };
+        };
 
         function dislike() {
             if (i === Yelp.all.length -1 ) {
@@ -236,8 +218,8 @@ function yelpRender(i, player) {
                 thUp.removeEventListener('click', like)
                 thDown.removeEventListener('click', dislike)
                 yelpRender(i+1,player)
-            }
-        }    
+            };
+        };    
 };
 
 
@@ -246,16 +228,16 @@ function newPlayer(player) {
     if (player === NUMPLAYERS) {
         renderMatches();
     } else { 
-    let playerNum = document.querySelector('h1#player')
+    const playerNum = document.querySelector('h1#player')
     playerNum.innerHTML = `${USERARY[player]}, ready?`
     readyBtn.addEventListener('click', e => {
         yelpRender(0, player+1)
-        })
-    }
+        });
+    };
 };
 
 function renderMatches() {
-    let matches = Yelp.matches(NUMPLAYERS)
+    const matches = Yelp.matches(NUMPLAYERS)
     if (!matches[0]){
         noMatch()
     } else { 
@@ -264,24 +246,24 @@ function renderMatches() {
         if (matches) {ifMatch()}
 
         function ifMatch(){
-            let y = matches[0]
-            let matchParent = document.querySelector('div#match-parent')
+            const y = matches[0]
+            const matchParent = document.querySelector('div#match-parent')
             matchParent.style['display'] = "block"
-            let winners = document.querySelector('div#match')
-            let message = document.querySelector('h1#player')
+            const winners = document.querySelector('div#match')
+            const message = document.querySelector('h1#player')
             message.innerHTML = "Your Matches"
 
-            let img = document.querySelector('div#match-img')
+            const img = document.querySelector('div#match-img')
             img.style = `background-image: url(${y.img});`
-            let title = document.querySelector('h2#title')
+            const title = document.querySelector('h2#title')
             title.innerHTML = y.name
-            let location = document.querySelector('p#location')
+            const location = document.querySelector('p#location')
             location.innerHTML = y.address
-            let price = document.querySelector('p#price')
+            const price = document.querySelector('p#price')
             price.innerHTML = y.price 
-            let rating = document.querySelector('p#rating')
+            const rating = document.querySelector('p#rating')
             rating.innerHTML = `${y.rating}/5`
-            let url = document.querySelector('a#result-url')
+            const url = document.querySelector('a#result-url')
             url.innerHTML = `Go to ${y.name}'s Yelp page`
             url.href = y.url
             if (matches.length > 1) {ifMatches(winners, matchParent)}
@@ -306,27 +288,27 @@ function renderMatches() {
                 let url = copy.querySelector('a#result-url')
                 url.innerHTML = `Go to ${y.name}'s Yelp page`
                 url.href = y.url 
-            }
-        }
-    }
-    // getAllLikes()
+            };
+        };
+    };
+    // getAllLikes();
 };
 
 function noMatch() {
-    let matchDiv = document.querySelector("#match")
+    const matchDiv = document.querySelector("#match")
     matchDiv.style['display'] = 'none'
-    let matchMess = document.querySelector("#player")
+    const matchMess = document.querySelector("#player")
     matchMess.innerHTML = "No Matches!"
-    let ready = document.querySelector('button#ready')
+    const ready = document.querySelector('button#ready')
     ready.style['display'] = "block"
     ready.innerHTML = 'Try again'
     ready.addEventListener('click', () => {
         location.reload()
-    })
-}
+    });
+};
 
 function getAllLikes() {
-    let allLikes = []
+    const allLikes = []
     USERARY.forEach( (x, i) => {
         fetch(`http://localhost:3000/users/likes?name=${x}`)
                 .then(response => {
@@ -344,72 +326,46 @@ function getAllLikes() {
                 .catch(err => {
                     console.log(err)
                     }); 
-    })
+    });
 };
 
 function renderMegamatch(allLikes) {
     console.log(allLikes)
-    let count = {};
+    const count = {};
     allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
     console.log(count)
 }
 
 function toggleYelpOff() {
     readyBtn.style['display'] = 'block'
-    let title = document.querySelector('h1#title')
+    const title = document.querySelector('h1#title')
     title.style['display'] = 'none'
-    let img = document.querySelector('div#image')
+    const img = document.querySelector('div#image')
     img.style['display'] = 'none'
-    let table = document.querySelector('table#menu')
+    const table = document.querySelector('table#menu')
     table.style['display'] = 'none'
-    let url = document.querySelector('a#url')
+    const url = document.querySelector('a#url')
     url.style['display'] = 'none'
 
-    let thUp = document.querySelector('img#thumb-up')
+    const thUp = document.querySelector('img#thumb-up')
     thUp.style['display'] = 'none'
-    let thDown = document.querySelector('img#thumb-down')
+    const thDown = document.querySelector('img#thumb-down')
     thDown.style['display'] = 'none'
 };
 
 function toggleYelpOn() {
     readyBtn.style['display'] = 'none'
-    let title = document.querySelector('h1#title')
+    const title = document.querySelector('h1#title')
     title.style['display'] = ''
-    let img = document.querySelector('div#image')
+    const img = document.querySelector('div#image')
     img.style['display'] = ''
-    let table = document.querySelector('table#menu')
+    const table = document.querySelector('table#menu')
     table.style['display'] = ''
-    let url = document.querySelector('a#url')
+    const url = document.querySelector('a#url')
     url.style['display'] = ''
 
-    let thUp = document.querySelector('img#thumb-up')
+    const thUp = document.querySelector('img#thumb-up')
     thUp.style['display'] = ''
-    let thDown = document.querySelector('img#thumb-down')
+    const thDown = document.querySelector('img#thumb-down')
     thDown.style['display'] = ''
-};
-
-////////////
-function fetchy() {
-    const yelpConfig = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'}
-    };
-    fetch(`http://localhost:3000/games/search?term=italian&location=new york, ny`, yelpConfig)
-    .then(response => {
-        return response.json()
-        })
-    .then(json => {
-        return json['businesses']
-        })
-    .then(data => {
-        data.forEach( yelp => {
-            new Yelp(yelp['id'], yelp['name'],yelp['url'],yelp['image_url'],yelp['price'],yelp['location']['address1'],yelp['phone'],yelp['rating'])
-            })  
-    yelpRender(0, 1)       
-        })
-    .catch(err => {
-        console.log(err)
-    })
-    return "fetchy"
 };
