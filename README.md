@@ -4,7 +4,7 @@ This is a "Tinder-style" application that would be used as a game for multiple p
 
 ## Getting Started
 
-The Rails backend is rendering a JSON format API that is fetched by the JavaScript frontend. To start Rails run command ```bundle install``` from directory ```ChickenTinder/backend_rails```. Before running the migrations for the database and starting a server using the ```rails s``` command you will need to load environment variables and change the ```/backend_rails/config/environments/database.yml``` as needed with your own information. I used ```gem 'dotenv-rails'``` to load env variables so you will have a ".env" file in your top directory to insert your env variables. Yuo will also need to obtain a key to be used in the ```app/models/game.rb``` class for the external API. Visit [yelp.com/fusion](https://www.yelp.com/fusion) and click "get started" for information about Fusion API.
+The Rails backend is rendering a JSON format API that is fetched by the JavaScript frontend. To start Rails run command ```bundle install``` from directory ```ChickenTinder/backend_rails```. Before running the migrations for the database and starting a server using the ```rails s``` command you will need to load environment variables and change the ```/backend_rails/config/environments/database.yml``` as needed with your own information. I used ```gem 'dotenv-rails'``` to load env variables so you will have a ".env" file in your top directory to insert your env variables. You will also need to obtain a key to be used in the ```app/models/game.rb``` class for the external API. Visit [yelp.com/fusion](https://www.yelp.com/fusion) and click "get started" for information about Fusion API.
 
 ### Prerequisites
 
