@@ -100,16 +100,15 @@ function createGame(gameId) {
                     return response.json()
                     })
                 .then(json => {
-                    // console.log(json)
                     USERARY.push(json['data']['attributes']['name'])
                 })
                 .catch(err => {
                     console.log(err)
                     });
             };
-        playBtn.removeEventListener('click', playFunc)
-        toggleYelps();
-        yelpFetch();
+            playBtn.removeEventListener('click', playFunc)
+            toggleYelps();
+            yelpFetch();
         }
     });
 
@@ -208,7 +207,6 @@ function yelpRender(i, player) {
                  return resp.json()
              })
              .then(json => {
-                //  console.log(json['data'])
                  newOrRender(i, player)
                 return json 
              })
@@ -263,65 +261,74 @@ function renderMatches() {
     // .then(json => {
     //     console.log(json)
     // })
-    let ready = document.querySelector('button#ready')
-    ready.style['display'] = "none"
     let matches = Yelp.matches(NUMPLAYERS)
-    if (matches) {ifMatch()}
+    if (!matches[0]){
+        noMatch()
+    } else { 
+        let ready = document.querySelector('button#ready')
+        ready.style['display'] = "none"
+        if (matches) {ifMatch()}
 
-    function ifMatch(){
-        let y = matches[0]
-        let matchParent = document.querySelector('div#match-parent')
-        matchParent.style['display'] = "block"
-        let winners = document.querySelector('div#match')
-        let message = document.querySelector('h1#player')
-        message.innerHTML = "Your Matches"
+        function ifMatch(){
+            let y = matches[0]
+            let matchParent = document.querySelector('div#match-parent')
+            matchParent.style['display'] = "block"
+            let winners = document.querySelector('div#match')
+            let message = document.querySelector('h1#player')
+            message.innerHTML = "Your Matches"
 
-        let img = document.querySelector('div#match-img')
-        img.style = `background-image: url(${y.img});`
-        let title = document.querySelector('h2#title')
-        title.innerHTML = y.name
-        let location = document.querySelector('p#location')
-        location.innerHTML = y.address
-        let price = document.querySelector('p#price')
-        price.innerHTML = y.price 
-        let rating = document.querySelector('p#rating')
-        rating.innerHTML = `${y.rating}/5`
-        let url = document.querySelector('a#result-url')
-        url.innerHTML = `Go to ${y.name}'s Yelp page`
-        url.href = y.url
-        if (matches.length > 1) {ifMatches(winners, matchParent)}
-    }
-
-    function ifMatches(winners, matchParent) {
-        for (let i = 1; i < NUMPLAYERS; i++) {
-            let y = matches[i]
-            // matchParent.style['display'] = "block"
-            let copy = winners.cloneNode(true)
-            matchParent.appendChild(copy)
-            let img = copy.querySelector('div#match-img')
+            let img = document.querySelector('div#match-img')
             img.style = `background-image: url(${y.img});`
-            let title = copy.querySelector('h2#title')
+            let title = document.querySelector('h2#title')
             title.innerHTML = y.name
-            let location = copy.querySelector('p#location')
+            let location = document.querySelector('p#location')
             location.innerHTML = y.address
-            let price = copy.querySelector('p#price')
+            let price = document.querySelector('p#price')
             price.innerHTML = y.price 
-            let rating = copy.querySelector('p#rating')
+            let rating = document.querySelector('p#rating')
             rating.innerHTML = `${y.rating}/5`
-            let url = copy.querySelector('a#result-url')
+            let url = document.querySelector('a#result-url')
             url.innerHTML = `Go to ${y.name}'s Yelp page`
-            url.href = y.url 
+            url.href = y.url
+            if (matches.length > 1) {ifMatches(winners, matchParent)}
         }
-}
-    if (!matches){noMatch()}
-    getAllLikes()
+
+        function ifMatches(winners, matchParent) {
+            for (let i = 1; i < NUMPLAYERS; i++) {
+                let y = matches[i]
+                // matchParent.style['display'] = "block"
+                let copy = winners.cloneNode(true)
+                matchParent.appendChild(copy)
+                let img = copy.querySelector('div#match-img')
+                img.style = `background-image: url(${y.img});`
+                let title = copy.querySelector('h2#title')
+                title.innerHTML = y.name
+                let location = copy.querySelector('p#location')
+                location.innerHTML = y.address
+                let price = copy.querySelector('p#price')
+                price.innerHTML = y.price 
+                let rating = copy.querySelector('p#rating')
+                rating.innerHTML = `${y.rating}/5`
+                let url = copy.querySelector('a#result-url')
+                url.innerHTML = `Go to ${y.name}'s Yelp page`
+                url.href = y.url 
+            }
+        }
+    }
+    // getAllLikes()
 };
 
 function noMatch() {
     let matchDiv = document.querySelector("#match")
     matchDiv.style['display'] = 'none'
     let matchMess = document.querySelector("#player")
-    matchMess.innerHTML = "No Matches. Play again!"   
+    matchMess.innerHTML = "No Matches!"
+    let ready = document.querySelector('button#ready')
+    ready.style['display'] = "block"
+    ready.innerHTML = 'Try again'
+    ready.addEventListener('click', () => {
+        location.reload()
+    })
 }
 
 function getAllLikes() {
