@@ -37,32 +37,33 @@ btnNext.addEventListener('click', function nex() {
     } else if (players.value < 1) {
         alert("Enter the number of players. At least two.")
     } else {
+        btnNext.removeEventListener('click', nex)
         TERM = term.value
         LOC = loc.value
         NUMPLAYERS = parseInt(players.value)
+        createGame()
         //create game
-        const gameConfig = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'}
-            };
-        fetch(`http://localhost:3000/games/create`, gameConfig)
-        .then(response => {
-            return response.json()
-            })
-        .then(json => {
-            const gameId  = json['data']['id']
-            Yelp.gameId = gameId
-            return gameId
-            })
-        .then(gameId => {
-            createGame(gameId)
-            })
-        btnNext.removeEventListener('click', nex)
+        // const gameConfig = {
+        // method: 'POST',
+        // headers: {
+        //     'Content-Type': 'application/json'}
+        //     };
+        // fetch(`http://localhost:3000/games/create`, gameConfig)
+        // .then(response => {
+        //     return response.json()
+        //     })
+        // .then(json => {
+        //     const gameId  = json['data']['id']
+        //     Yelp.gameId = gameId
+        //     return gameId
+        //     })
+        // .then(gameId => {
+        //     createGame(gameId)
+        //     })
     }
 })
 
-function createGame(gameId) {
+function createGame() {
     toggleUserName()
     const userParent = document.querySelector('div#user-parent')
     for (let i=1; i<= NUMPLAYERS-1; i++) {
@@ -95,7 +96,7 @@ function createGame(gameId) {
                 };
         for (let i=1; i <= NUMPLAYERS; i++){
             let name = document.querySelector(`input#player-${i}-name`).value
-                fetch(`http://localhost:3000/users/create?game_id=${gameId}&name=${name}`, userConfig)
+                fetch(`http://localhost:3000/users/create?&name=${name}`, userConfig)
                 .then(response => {
                     return response.json()
                     })
@@ -254,13 +255,6 @@ function newPlayer(player) {
 };
 
 function renderMatches() {
-    // fetch(`http://localhost:3000/games/${Yelp.gameId}`)
-    // .then(resp => {
-    //     return resp.json()
-    // })
-    // .then(json => {
-    //     console.log(json)
-    // })
     let matches = Yelp.matches(NUMPLAYERS)
     if (!matches[0]){
         noMatch()

@@ -1,14 +1,7 @@
 class UsersController < ApplicationController
 
     def create 
-        user = User.find_by(name: params[:name])
-        if user 
-            user.game_id = params[:game_id]
-            user.save 
-        else user = User.new(name: params[:name])
-            user.game_id = params[:game_id]
-            user.save 
-        end
+        user = User.find_or_create_by(name: params[:name])
         render json: UserSerializer.new(user)
     end
 
@@ -26,6 +19,6 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.permit(:game_id, :name, game_params: [:id])
+        params.permit(:name)
     end
 end
