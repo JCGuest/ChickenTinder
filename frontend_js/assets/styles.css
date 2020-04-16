@@ -1,6 +1,7 @@
 body  {
     background-image: url('backgrnd.png');
     background-size: 100%;
+    background-attachment: fixed;
 }
 
 div.main {
@@ -117,7 +118,7 @@ div#image {
     margin-top: 4%;
     margin-left: 19%;
     width: 65%;
-    height: 10%;
+    height: 300px;
     box-shadow: 1px 1px 4px #333;
     background-size: 100%;
 }
@@ -149,16 +150,11 @@ img#star {
     max-height: 50px;
 }
 
-
-
 table#menu {
     margin-left: 15%;
     width: 92%;
 }
 
-td#phone {
-
-}
 
 td#rating {
     font-size: 40px;
@@ -249,8 +245,8 @@ div#match-img {
     border-radius: 20px;
     margin-top: 4%;
     margin-left: 30%;
-    width: 40%;
-    height: 155px;
+    width: 44%;
+    height: 190px;
     box-shadow: 1px 1px 4px #333;
     background-size: 100%;
 }
