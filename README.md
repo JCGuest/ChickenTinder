@@ -8,9 +8,9 @@ The Rails backend is rendering a JSON format API that is fetched by the JavaScri
 
 ### Prerequisites
 
-'ruby 2.6.5'
-'rails (~> 5.2.4, >= 5.2.4.2)'
-'BUNDLED WITH 2.1.2'
+'ruby 2.6.5' <br>
+'rails (~> 5.2.4, >= 5.2.4.2)'<br>
+'BUNDLED WITH 2.1.2'<br>
 
 ## License
 
