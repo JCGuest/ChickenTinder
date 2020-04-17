@@ -333,23 +333,23 @@ function renderMegamatch(allLikes) {
     const count = {};
     allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
     console.log(count)
-    const likesConfig = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"}
-    };
-    fetch(`http://localhost:3000/games/business?business_id=${allLikes[0]}`, likesConfig)
-    .then(resp => {
-        console.log(resp)
 
-        return resp.json()
-    })
-    .then(json => {
-        console.log(json)
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    // const likesConfig = {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"}
+    // };
+    // fetch(`http://localhost:3000/games/business?business_id=${allLikes[0]}`, likesConfig)
+    // .then(resp => {
+    //     // console.log(resp)
+    //     return resp.json()
+    // })
+    // .then(json => {
+    //     console.log(json)
+    // })
+    // .catch(err => {
+    //     console.log(err)
+    // })
 }
 
 function toggleYelpOff() {

@@ -6,7 +6,7 @@ class GamesController < ApplicationController
     end
 
     def business
-        business_id = params[:business]
+        business_id = params[:business_id]
         render json: Game.business(business_id)
     end
 end
