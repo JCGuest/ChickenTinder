@@ -191,7 +191,7 @@ function yelpRender(i, player) {
                  return resp.json()
              })
              .then(json => {
-                 newOrRender(i, player)
+                newOrRender(i, player)
                 return json 
              })
              .catch(err => {
@@ -270,9 +270,8 @@ function renderMatches() {
         }
 
         function ifMatches(winners, matchParent) {
-            for (let i = 1; i <= NUMPLAYERS; i++) {
+            for (let i = 1; i <= NUMPLAYERS-1; i++) {
                 let y = matches[i]
-                // matchParent.style['display'] = "block"
                 let copy = winners.cloneNode(true)
                 matchParent.appendChild(copy)
                 let img = copy.querySelector('div#match-img')
@@ -332,8 +331,25 @@ function getAllLikes() {
 function renderMegamatch(allLikes) {
     console.log(allLikes)
     const count = {};
-    allLikes.forEach(function(i) { count[i] = (count[i]||0) + 1;});
-    // console.log(count)
+    allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
+    console.log(count)
+    const likesConfig = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"}
+    };
+    fetch(`http://localhost:3000/games/business?business_id=${allLikes[0]}`, likesConfig)
+    .then(resp => {
+        console.log(resp)
+
+        return resp.json()
+    })
+    .then(json => {
+        console.log(json)
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 
 function toggleYelpOff() {

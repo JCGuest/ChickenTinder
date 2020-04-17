@@ -4,4 +4,9 @@ class GamesController < ApplicationController
         location = params[:location]
         render json: Game.search(term, location)
     end
+
+    def business
+        business_id = params[:business]
+        render json: Game.business(business_id)
+    end
 end

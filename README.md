@@ -1,6 +1,6 @@
 # Chicken Tinder
 
-This is a "Tinder-style" application that would be used as a game for multiple people to play. It uses the Yelp "Fusion API" that gets Yelp results for the user, creates player names and asks the users to each vote one at a time for each result. Each result that was voted for by all players is then shown in a list of matches with information and links to the results Yelp pages.
+This is a "Tinder-style" application that would be used as a game for multiple people to play. It uses the Yelp "Fusion API" and gets Yelp results for the user, creates player names and asks the users to each vote one at a time for each result. Each result that was voted for by all players is then shown in a list of matches with information and links to the results Yelp pages.
 
 ## Getting Started
 
