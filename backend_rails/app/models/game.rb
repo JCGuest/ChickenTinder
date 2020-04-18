@@ -2,7 +2,7 @@ class Game < ApplicationRecord
 @api_key = ENV['KEY']
 @api_host = "https://api.yelp.com"
 @search_path = "/v3/businesses/search"
-@search_limit = 2
+@search_limit = 5
 @business_path = "/v3/businesses/"
 
   def self.search(term, location)

@@ -185,6 +185,8 @@ function yelpRender(i, player) {
         thDown.addEventListener('click', dislike)
 
         function like() {
+            thDown.removeEventListener('click', dislike)
+
              result.likes = (result.likes + 1)            
              const likeConfig = {
                  method: "POST",
@@ -197,6 +199,7 @@ function yelpRender(i, player) {
              })
              .then(json => {
                 newOrRender(i, player)
+                console.log(USERARY[player-1] + result.name + result.id)
                 return json 
              })
              .catch(err => {
@@ -204,27 +207,22 @@ function yelpRender(i, player) {
              });
              function newOrRender(i, player) {
                 if (i === Yelp.all.length -1 ) {
-                    thUp.removeEventListener('click', like)
-                    thDown.removeEventListener('click', dislike)
                     newPlayer(player)
                 } else {
-                    thUp.removeEventListener('click', like)
-                    thDown.removeEventListener('click', dislike)
                     yelpRender(i+1,player)
                 };
             };
+            thUp.removeEventListener('click', like)
         };
 
         function dislike() {
+            thUp.removeEventListener('click', like)
             if (i === Yelp.all.length -1 ) {
-                thUp.removeEventListener('click', like)
-                thDown.removeEventListener('click', dislike)
                 newPlayer(player)
             } else {
-                thUp.removeEventListener('click', like)
-                thDown.removeEventListener('click', dislike)
                 yelpRender(i+1,player)
             };
+            thDown.removeEventListener('click', dislike)
         };    
 };
 
@@ -244,6 +242,7 @@ function newPlayer(player) {
 
 function renderMatches() {
     const matches = Yelp.matches(NUMPLAYERS)
+    console.log(Yelp.matches(NUMPLAYERS) + "Yelp.matches(NUMPLAYERS)")
     if (!matches[0]){
         noMatch()
     } else { 
@@ -322,15 +321,10 @@ function getAllLikes() {
                     json['data']['attributes']['likes'].forEach( like => {
                         allLikes.push(like.yelp_id)
                     })
-                    // console.log(json['data']['attributes']['likes'])
-                    // console.log(user)
-                    // console.log(USERARY.slice(-1))
                     return user
                 })
                 .then(user => {
-                    console.log(user)
                     if (user == USERARY.slice(-1)) {
-                    //     console.log(allLikes)
                         renderMegamatch(allLikes)
                     }
                 })
