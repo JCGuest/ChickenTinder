@@ -84,17 +84,21 @@ function createGame() {
                     return response.json()
                     })
                 .then(json => {
-                    console.log(json['data']['attributes']['name'] + " create user")
                     USERARY.push(json['data']['attributes']['name'])
+                    return i 
+                })
+                .then( i => {
+                    if (i === NUMPLAYERS){
+                        toggleYelps();
+                        yelpFetch();
+                    }
                 })
                 .catch(err => {
                     console.log(err)
                     });
             };
-            playBtn.removeEventListener('click', playFunc)
-            toggleYelps();
-            yelpFetch();
         }
+        playBtn.removeEventListener('click', playFunc)
     });
 
 };
@@ -309,7 +313,7 @@ function noMatch() {
 
 function getAllLikes() {
     const allLikes = []
-    USERARY.forEach( (user, i) => {
+    USERARY.forEach( user => {
         fetch(`http://localhost:3000/users/likes?name=${user}`)
                 .then(response => {
                     return response.json()
@@ -317,12 +321,18 @@ function getAllLikes() {
                 .then(json => {
                     json['data']['attributes']['likes'].forEach( like => {
                         allLikes.push(like.yelp_id)
-                        console.log(`${i}` + `${like.yelp_id}`)
                     })
-                    return i
+                    // console.log(json['data']['attributes']['likes'])
+                    // console.log(user)
+                    // console.log(USERARY.slice(-1))
+                    return user
                 })
-                .then(i => {
-                    if (i === NUMPLAYERS-1) {renderMegamatch(allLikes)}
+                .then(user => {
+                    console.log(user)
+                    if (user == USERARY.slice(-1)) {
+                    //     console.log(allLikes)
+                        renderMegamatch(allLikes)
+                    }
                 })
                 .catch(err => {
                     console.log(err)
@@ -331,61 +341,64 @@ function getAllLikes() {
 };
 
 function renderMegamatch(allLikes) {
-    console.log(allLikes)
-    const count = {};
+    let count = {}
+    let megaId = []
     allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
-    // console.log(count)
-    const megaM = []
+
     for (key in count) {
         if (count[key] === NUMPLAYERS){
-        megaM.push(key)
+        megaId.push(key)
         }
-    };
+    }
+
     const likesConfig = {
         method: "POST",
         headers: {
             "Content-Type": "application/json"}
     };
-    const megaName = []
-    megaM.forEach( (id, i) => {
+    const megaNames = []
+    megaId.forEach( id => {
     fetch(`http://localhost:3000/games/business?business_id=${id}`, likesConfig)
         .then(resp => {
             return resp.json()
         })
         .then(json => {
-            megaName.push(json["name"])
-            return i 
+            megaNames.push(json["name"])
+            return id
         })
-        .then( i => {
-            if (i === megaM.length-1) {
-                console.log(megaName)
+        .then( id => {
+            if (id == megaId.slice(-1)) {
+                megaList(megaNames)
             }
         })
         .catch(err => {
             console.log(err)
         });
     });
-    if (megaName[0]) {
-        const megaDiv = document.querySelector('div#mega')
-        megaDiv.style['display'] = "block"
-        function userNames(arry) {
+    function megaList(megaNames) {
+        function nameParse(arry) {
             sent = ""
             for (let i=0; i < arry.length-1; i++) {
                 sent = sent + arry[i] + ", "
             }
             return sent      
         };
+
+    if (megaNames[0]) {
+        const megaDiv = document.querySelector('div#mega')
+        // megaDiv.style['display'] = "block"
+        
         const megaH2 = document.querySelector('h2#mega')
         const megaP = document.querySelector('p#mega')
-        megaH2.innerHTML = `A list of all businesses ${userNames(USERARY)} and ${USERARY.slice(-1)} have all liked on Chicken Tinder... `
-        megaP.innerHTML = megaName[0]
-        for (let i=1; i < NUMPLAYERS-1; i++){
-        copy = megaP.cloneNode(true)
-        copy.innerHTML = megaName[1]
+        megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)} have all liked on Chicken Tinder... `
+        megaP.innerHTML = megaNames[0]
+        for (let i=1; i < NUMPLAYERS; i++){
+        let copy = megaP.cloneNode(true)
+        copy.innerHTML = megaNames[i]
         megaDiv.appendChild(copy)
         }
-     }
-    // };
+        };
+    };
 };
 
 
