@@ -184,9 +184,9 @@ function yelpRender(i, player) {
         thUp.addEventListener('click', like)
         thDown.addEventListener('click', dislike)
 
-        function like() {
+        function like(e) {
             thDown.removeEventListener('click', dislike)
-
+            e.target.removeEventListener('click', like)
              result.likes = (result.likes + 1)            
              const likeConfig = {
                  method: "POST",
@@ -198,31 +198,39 @@ function yelpRender(i, player) {
                  return resp.json()
              })
              .then(json => {
-                newOrRender(i, player)
                 console.log(USERARY[player-1] + result.name + result.id)
+                newOrRender(i, player)
                 return json 
              })
              .catch(err => {
                  console.log(err)
              });
-             function newOrRender(i, player) {
-                if (i === Yelp.all.length -1 ) {
-                    newPlayer(player)
-                } else {
-                    yelpRender(i+1,player)
-                };
-            };
-            thUp.removeEventListener('click', like)
+            //  function newOrRender(i, player) {
+            //     if (i === Yelp.all.length -1 ) {
+            //         newPlayer(player)
+            //     } else {
+            //         yelpRender(i+1,player)
+            //     };
+            // };
         };
 
-        function dislike() {
+        function newOrRender(i, player) {
+            if (i === Yelp.all.length -1 ) {
+                newPlayer(player)
+            } else {
+                yelpRender(i+1,player)
+            };
+        };
+
+        function dislike(e) {
+            e.target.removeEventListener('click', dislike)
             thUp.removeEventListener('click', like)
             if (i === Yelp.all.length -1 ) {
                 newPlayer(player)
             } else {
                 yelpRender(i+1,player)
             };
-            thDown.removeEventListener('click', dislike)
+
         };    
 };
 
