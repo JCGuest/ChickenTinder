@@ -309,19 +309,20 @@ function noMatch() {
 
 function getAllLikes() {
     const allLikes = []
-    USERARY.forEach( (x, i) => {
-        fetch(`http://localhost:3000/users/likes?name=${x}`)
+    USERARY.forEach( (user, i) => {
+        fetch(`http://localhost:3000/users/likes?name=${user}`)
                 .then(response => {
                     return response.json()
                     })
                 .then(json => {
                     json['data']['attributes']['likes'].forEach( like => {
                         allLikes.push(like.yelp_id)
+                        console.log(`${i}` + `${like.yelp_id}`)
                     })
                     return i
                 })
                 .then(i => {
-                    if (i === NUMPLAYERS - 1) {renderMegamatch(allLikes)}
+                    if (i === NUMPLAYERS-1) {renderMegamatch(allLikes)}
                 })
                 .catch(err => {
                     console.log(err)
@@ -333,7 +334,7 @@ function renderMegamatch(allLikes) {
     console.log(allLikes)
     const count = {};
     allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
-    console.log(count)
+    // console.log(count)
     const megaM = []
     for (key in count) {
         if (count[key] === NUMPLAYERS){
@@ -364,18 +365,29 @@ function renderMegamatch(allLikes) {
             console.log(err)
         });
     });
-    const megaDiv = document.querySelector('div#mega')
-    megaDiv.style['display'] = "block"
-    function userNames(arry) {
-        for (name in arry){
-            if (arry[name] != arry.last){
-            return `${arry[name]},`
+    if (megaName[0]) {
+        const megaDiv = document.querySelector('div#mega')
+        megaDiv.style['display'] = "block"
+        function userNames(arry) {
+            sent = ""
+            for (let i=0; i < arry.length-1; i++) {
+                sent = sent + arry[i] + ", "
             }
-        }      
-    };
-    const megaH2 = document.querySelector('h2#mega')  
-    megaH2.innerHTML = `A list of all businesses ${userNames(USERARY)} and ${USERARY.splice(-1)} have all liked on Chicken Tinder... `
-}
+            return sent      
+        };
+        const megaH2 = document.querySelector('h2#mega')
+        const megaP = document.querySelector('p#mega')
+        megaH2.innerHTML = `A list of all businesses ${userNames(USERARY)} and ${USERARY.slice(-1)} have all liked on Chicken Tinder... `
+        megaP.innerHTML = megaName[0]
+        for (let i=1; i < NUMPLAYERS-1; i++){
+        copy = megaP.cloneNode(true)
+        copy.innerHTML = megaName[1]
+        megaDiv.appendChild(copy)
+        }
+     }
+    // };
+};
+
 
 function toggleYelpOff() {
     readyBtn.style['display'] = 'block'
