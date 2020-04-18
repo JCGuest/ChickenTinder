@@ -3,7 +3,6 @@ class LikesController < ApplicationController
     user = User.find_by(name: params[:username])
     like = user.likes.find_by(yelp_id: params[:yelp_id])
       if !like 
-        # like = Like.new(like_params)
         like = Like.new(name: params[:name], yelp_id: params[:yelp_id])
         like.user_id = user.id
       end

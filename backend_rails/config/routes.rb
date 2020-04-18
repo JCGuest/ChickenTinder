@@ -9,8 +9,4 @@ get '/users/likes', to: 'users#likes'
 # #likes 
 post '/likes', to: 'likes#create'
 
-# resources :users, only: [:create, :update] do 
-#     resources :likes, only: [:create]
-# end
-
 end
