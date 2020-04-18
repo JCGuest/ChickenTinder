@@ -84,6 +84,7 @@ function createGame() {
                     return response.json()
                     })
                 .then(json => {
+                    console.log(json['data']['attributes']['name'] + " create user")
                     USERARY.push(json['data']['attributes']['name'])
                 })
                 .catch(err => {
@@ -333,23 +334,47 @@ function renderMegamatch(allLikes) {
     const count = {};
     allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
     console.log(count)
-
-    // const likesConfig = {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"}
-    // };
-    // fetch(`http://localhost:3000/games/business?business_id=${allLikes[0]}`, likesConfig)
-    // .then(resp => {
-    //     // console.log(resp)
-    //     return resp.json()
-    // })
-    // .then(json => {
-    //     console.log(json)
-    // })
-    // .catch(err => {
-    //     console.log(err)
-    // })
+    const megaM = []
+    for (key in count) {
+        if (count[key] === NUMPLAYERS){
+        megaM.push(key)
+        }
+    };
+    const likesConfig = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"}
+    };
+    const megaName = []
+    megaM.forEach( (id, i) => {
+    fetch(`http://localhost:3000/games/business?business_id=${id}`, likesConfig)
+        .then(resp => {
+            return resp.json()
+        })
+        .then(json => {
+            megaName.push(json["name"])
+            return i 
+        })
+        .then( i => {
+            if (i === megaM.length-1) {
+                console.log(megaName)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        });
+    });
+    const megaDiv = document.querySelector('div#mega')
+    megaDiv.style['display'] = "block"
+    function userNames(arry) {
+        for (name in arry){
+            if (arry[name] != arry.last){
+            return `${arry[name]},`
+            }
+        }      
+    };
+    const megaH2 = document.querySelector('h2#mega')  
+    megaH2.innerHTML = `A list of all businesses ${userNames(USERARY)} and ${USERARY.splice(-1)} have all liked on Chicken Tinder... `
 }
 
 function toggleYelpOff() {
