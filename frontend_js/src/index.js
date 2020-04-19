@@ -338,6 +338,7 @@ function getAllLikes() {
 };
 
 function renderMegamatch(allLikes) {
+    console.log(allLikes)
     let sorted = allLikes.slice().sort()
     let megaId = []
     for (let i=0; i<sorted.length-1; i++ ){
@@ -345,7 +346,7 @@ function renderMegamatch(allLikes) {
             megaId.push(sorted[i])
         }
     }
-console.log("megaid" + " " + megaId)
+console.log(megaId)
     // let count = {}
     // let megaId = []
     // allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
@@ -372,7 +373,7 @@ console.log("megaid" + " " + megaId)
             return id
         })
         .then( id => {
-            if (id == megaId.slice(-1)[0]) {
+            if (id === megaId[megaId.length-1]) {
                 megaList(megaNames)
             }
         })
@@ -380,31 +381,38 @@ console.log("megaid" + " " + megaId)
             console.log(err)
         });
     });
-    function megaList(megaNames) {
-        console.log("meganames" + " " + megaNames)
-        function nameParse(arry) {
-            sent = ""
-            for (let i=0; i < arry.length-1; i++) {
-                sent = sent + arry[i] + ", "
-            }
-            return sent      
-        };
+    
+};
 
+function megaList(megaNames) {
+    console.log("meganames" + " " + megaNames)
     if (megaNames[0]) {
         const megaDiv = document.querySelector('div#mega')
         // megaDiv.style['display'] = "block"
         
         const megaH2 = document.querySelector('h2#mega')
-        const megaP = document.querySelector('p#mega')
+        // const megaP = document.querySelector('p#mega')
         megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)[0]} have all liked on Chicken Tinder... `
-        megaP.innerHTML = megaNames[0]
-        for (let i=1; i < NUMPLAYERS; i++){
-        let copy = megaP.cloneNode(true)
-        copy.innerHTML = megaNames[i]
-        megaDiv.appendChild(copy)
-        }
+        // megaP.innerHTML = megaNames[0]
+        // for (let i=1; i < megaNames.lenght-1; i++){
+        // let copy = megaP.cloneNode(true)
+        // copy.innerHTML = megaNames[i]
+        // megaDiv.appendChild(copy)
+        // };
+        for (let i=0; i<megaNames.length-1; i++){
+        let megaP = document.createElement('p')
+        megaP.innerHTML = megaNames[i]
+        megaDiv.appendChild(megaP)
         };
     };
+};
+
+function nameParse(arry) {
+    sent = ""
+    for (let i=0; i < arry.length-1; i++) {
+        sent = sent + arry[i] + ", "
+    }
+    return sent      
 };
 
 
