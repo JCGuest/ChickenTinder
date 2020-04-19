@@ -198,20 +198,12 @@ function yelpRender(i, player) {
                  return resp.json()
              })
              .then(json => {
-                console.log(USERARY[player-1] + result.name + result.id)
                 newOrRender(i, player)
                 return json 
              })
              .catch(err => {
                  console.log(err)
-             });
-            //  function newOrRender(i, player) {
-            //     if (i === Yelp.all.length -1 ) {
-            //         newPlayer(player)
-            //     } else {
-            //         yelpRender(i+1,player)
-            //     };
-            // };
+             });;
         };
 
         function newOrRender(i, player) {
@@ -250,7 +242,6 @@ function newPlayer(player) {
 
 function renderMatches() {
     const matches = Yelp.matches(NUMPLAYERS)
-    console.log(Yelp.matches(NUMPLAYERS) + "Yelp.matches(NUMPLAYERS)")
     if (!matches[0]){
         noMatch()
     } else { 
@@ -322,17 +313,18 @@ function getAllLikes() {
     const allLikes = []
     USERARY.forEach( user => {
         fetch(`http://localhost:3000/users/likes?name=${user}`)
-                .then(response => {
-                    return response.json()
+                .then(resp => {
+                    return resp.json() 
                     })
                 .then(json => {
+                    console.log(json['data'])
                     json['data']['attributes']['likes'].forEach( like => {
                         allLikes.push(like.yelp_id)
                     })
                     return user
                 })
                 .then(user => {
-                    if (user == USERARY.slice(-1)) {
+                    if (user === USERARY.slice(-1)[0]) {
                         renderMegamatch(allLikes)
                     }
                 })
@@ -369,7 +361,7 @@ function renderMegamatch(allLikes) {
             return id
         })
         .then( id => {
-            if (id == megaId.slice(-1)) {
+            if (id === megaId.slice(-1)[0]) {
                 megaList(megaNames)
             }
         })
@@ -392,7 +384,7 @@ function renderMegamatch(allLikes) {
         
         const megaH2 = document.querySelector('h2#mega')
         const megaP = document.querySelector('p#mega')
-        megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)} have all liked on Chicken Tinder... `
+        megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)[0]} have all liked on Chicken Tinder... `
         megaP.innerHTML = megaNames[0]
         for (let i=1; i < NUMPLAYERS; i++){
         let copy = megaP.cloneNode(true)
