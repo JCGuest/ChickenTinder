@@ -325,6 +325,9 @@ function getAllLikes() {
                 })
                 .then(user => {
                     if (user === USERARY.slice(-1)[0]) {
+                        // console.log("user" + " " + user)
+                        // console.log("USERARY" + " " + USERARY)
+                        // console.log('allLikes' + " " + allLikes)
                         renderMegamatch(allLikes)
                     }
                 })
@@ -335,15 +338,23 @@ function getAllLikes() {
 };
 
 function renderMegamatch(allLikes) {
-    let count = {}
+    let sorted = allLikes.slice().sort()
     let megaId = []
-    allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
-
-    for (key in count) {
-        if (count[key] === NUMPLAYERS){
-        megaId.push(key)
+    for (let i=0; i<sorted.length-1; i++ ){
+        if (sorted[i+1] == sorted[i]){
+            megaId.push(sorted[i])
         }
     }
+console.log("megaid" + " " + megaId)
+    // let count = {}
+    // let megaId = []
+    // allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
+
+    // for (key in count) {
+    //     if (count[key] === NUMPLAYERS){
+    //     megaId.push(key)
+    //     }
+    // }
 
     const likesConfig = {
         method: "POST",
@@ -361,7 +372,7 @@ function renderMegamatch(allLikes) {
             return id
         })
         .then( id => {
-            if (id === megaId.slice(-1)[0]) {
+            if (id == megaId.slice(-1)[0]) {
                 megaList(megaNames)
             }
         })
@@ -370,6 +381,7 @@ function renderMegamatch(allLikes) {
         });
     });
     function megaList(megaNames) {
+        console.log("meganames" + " " + megaNames)
         function nameParse(arry) {
             sent = ""
             for (let i=0; i < arry.length-1; i++) {
