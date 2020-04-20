@@ -11,7 +11,9 @@ readyBtn.style['display'] = 'none'
 const yelps = document.querySelector('div#yelp-wrap')
 // toggle for testing
 yelps.style['display'] = 'none'
-const yelpInfo = document.querySelector('div#yelp-info')
+// const yelpInfo = document.querySelector('div#yelp-info')
+newPromp = document.querySelector('a#new-user')
+newPromp.addEventListener('click', prompter)
 
 function toggleUserName() {
     if (userInfo.style['display'] == 'none') {
@@ -46,20 +48,18 @@ btnNext.addEventListener('click', function nex() {
     };
 })
 
-    newPromp = document.querySelector('a#new-user')
-    newPromp.addEventListener('click', prompter)
-    function prompter(e){
-        e.preventDefault()
-        let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. \
-        Below you can enter a search term and location just like you would on Yelp, select the number \
-        of players, and vote on each result. Each result that gets voted for by each player will be shown after \
-        all players have gone. Please enter a username here that is unique because \
-        I chose not to validate users or use passwords. You will then use that name when prompted after the serch is submitted.')
-    if (user) {
-        const userConfig = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'}
+function prompter(e){
+    e.preventDefault()
+    let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. \
+    Below you can enter a search term and location just like you would on Yelp, select the number \
+    of players, and vote on each result. Each result that gets voted for by each player will be shown after \
+    all players have gone. Please enter a username here that is unique because \
+    I chose not to use passwords. You will then use that name when prompted after the serch is submitted.')
+if (user) {
+    const userConfig = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'}
             };
     fetch(`http://localhost:3000/users/create?&name=${user}`, userConfig)
     .then(resp => {
@@ -71,7 +71,9 @@ btnNext.addEventListener('click', function nex() {
             errs.forEach(e => {
             alert(`Name ${e}`)
                 })
-            };
+            } else {
+                alert(`You have created username: ${json['data']['attributes']['name']}.\nPlease remember this for the player entry up after you have entered your search.`)
+            }
         });
     }
     e.target.removeEventListener('click', prompter)
@@ -115,7 +117,6 @@ function createGame() {
                     return response.json()
                     })
                 .then(json => {
-                    console.log(json['data']['attributes'])
                     USERARY.push(json['data']['attributes']['name'])
                     return i 
                 })
@@ -350,12 +351,14 @@ function getAllLikes() {
                     })
                 .then(json => {
                     json['data']['attributes']['likes'].forEach( like => {
+                        // console.log(like.id)
                         allLikes.push(like.yelp_id)
                     })
                     return user
                 })
                 .then(user => {
                     if (user === USERARY.slice(-1)[0]) {
+                        // console.log(allLikes)
                         renderMegamatch(allLikes)
                     }
                 })
@@ -373,6 +376,7 @@ function renderMegamatch(allLikes) {
             megaId.push(sorted[i])
         }
     }
+    // console.log(megaId)
 
     const likesConfig = {
         method: "POST",
