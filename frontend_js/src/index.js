@@ -298,7 +298,7 @@ function renderMatches() {
 
 function noMatch() {
     const matchDiv = document.querySelector("#match")
-    matchDiv.style['display'] = 'none'
+    // matchDiv.style['display'] = 'none'   
     const matchMess = document.querySelector("#player")
     matchMess.innerHTML = "No Matches!"
     const ready = document.querySelector('button#ready')
@@ -325,9 +325,9 @@ function getAllLikes() {
                 })
                 .then(user => {
                     if (user === USERARY.slice(-1)[0]) {
-                        // console.log("user" + " " + user)
-                        // console.log("USERARY" + " " + USERARY)
-                        // console.log('allLikes' + " " + allLikes)
+                        console.log("user" + " " + user)
+                        console.log("USERARY" + " " + USERARY)
+                        console.log('allLikes' + " " + allLikes)
                         renderMegamatch(allLikes)
                     }
                 })
