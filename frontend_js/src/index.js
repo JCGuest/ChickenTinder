@@ -46,6 +46,37 @@ btnNext.addEventListener('click', function nex() {
     };
 })
 
+    newPromp = document.querySelector('a#new-user')
+    newPromp.addEventListener('click', prompter)
+    function prompter(e){
+        e.preventDefault()
+        let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. \
+        Below you can enter a search term and location just like you would on Yelp, select the number \
+        of players, and vote on each result. Each result that gets voted for by each player will be shown after \
+        all players have gone. Please enter a username here that is unique because \
+        I chose not to validate users or use passwords. You will then use that name when prompted after the serch is submitted.')
+    if (user) {
+        const userConfig = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'}
+            };
+    fetch(`http://localhost:3000/users/create?&name=${user}`, userConfig)
+    .then(resp => {
+        return resp.json()
+    })        
+    .then(json => {
+        let errs = json['data']['attributes']['errors']['name']
+        if (errs) {
+            errs.forEach(e => {
+            alert(`Name ${e}`)
+                })
+            };
+        });
+    }
+    e.target.removeEventListener('click', prompter)
+  };
+
 function createGame() {
     toggleUserName()
     const userParent = document.querySelector('div#user-parent')
@@ -63,9 +94,9 @@ function createGame() {
     userParent.appendChild(playBtn)
     USERARY = []
     playBtn.addEventListener('click', function playFunc() {
-        const validateNames = document.querySelectorAll('input.validate')
+        const loginNames = document.querySelectorAll('input.login')
         const invalid = []
-        validateNames.forEach(function(x) {
+        loginNames.forEach(function(x) {
             if (!x.value) {invalid.push(x)}
             })
         if (invalid[0]) {
@@ -79,11 +110,12 @@ function createGame() {
                 };
         for (let i=1; i <= NUMPLAYERS; i++){
             let name = document.querySelector(`input#player-${i}-name`).value
-                fetch(`http://localhost:3000/users/create?&name=${name}`, userConfig)
+                fetch(`http://localhost:3000/users/login?&name=${name}`, userConfig)
                 .then(response => {
                     return response.json()
                     })
                 .then(json => {
+                    console.log(json['data']['attributes'])
                     USERARY.push(json['data']['attributes']['name'])
                     return i 
                 })
@@ -317,7 +349,6 @@ function getAllLikes() {
                     return resp.json() 
                     })
                 .then(json => {
-                    console.log(json['data'])
                     json['data']['attributes']['likes'].forEach( like => {
                         allLikes.push(like.yelp_id)
                     })
@@ -325,9 +356,6 @@ function getAllLikes() {
                 })
                 .then(user => {
                     if (user === USERARY.slice(-1)[0]) {
-                        // console.log("user" + " " + user)
-                        // console.log("USERARY" + " " + USERARY)
-                        // console.log('allLikes' + " " + allLikes)
                         renderMegamatch(allLikes)
                     }
                 })
@@ -338,7 +366,6 @@ function getAllLikes() {
 };
 
 function renderMegamatch(allLikes) {
-    console.log(allLikes)
     let sorted = allLikes.slice().sort()
     let megaId = []
     for (let i=0; i<sorted.length-1; i++ ){
@@ -346,16 +373,6 @@ function renderMegamatch(allLikes) {
             megaId.push(sorted[i])
         }
     }
-console.log(megaId)
-    // let count = {}
-    // let megaId = []
-    // allLikes.forEach( like => { count[like] = (count[like]||0) + 1;});
-
-    // for (key in count) {
-    //     if (count[key] === NUMPLAYERS){
-    //     megaId.push(key)
-    //     }
-    // }
 
     const likesConfig = {
         method: "POST",
@@ -385,20 +402,12 @@ console.log(megaId)
 };
 
 function megaList(megaNames) {
-    console.log("meganames" + " " + megaNames)
     if (megaNames[0]) {
         const megaDiv = document.querySelector('div#mega')
         // megaDiv.style['display'] = "block"
         
         const megaH2 = document.querySelector('h2#mega')
-        // const megaP = document.querySelector('p#mega')
         megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)[0]} have all liked on Chicken Tinder... `
-        // megaP.innerHTML = megaNames[0]
-        // for (let i=1; i < megaNames.lenght-1; i++){
-        // let copy = megaP.cloneNode(true)
-        // copy.innerHTML = megaNames[i]
-        // megaDiv.appendChild(copy)
-        // };
         for (let i=0; i<megaNames.length-1; i++){
         let megaP = document.createElement('p')
         megaP.innerHTML = megaNames[i]
