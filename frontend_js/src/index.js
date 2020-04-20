@@ -53,8 +53,7 @@ function prompter(e){
     let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. \
     Below you can enter a search term and location just like you would on Yelp, select the number \
     of players, and vote on each result. Each result that gets voted for by each player will be shown after \
-    all players have gone. Please enter a username here that is unique because \
-    I chose not to use passwords. You will then use that name when prompted after the serch is submitted.')
+    all players have gone. Please enter a username here that is unique because I chose not to use passwords. You will then use that name when prompted after the serch is submitted.')
 if (user) {
     const userConfig = {
         method: 'POST',
@@ -69,10 +68,10 @@ if (user) {
         let errs = json['data']['attributes']['errors']['name']
         if (errs) {
             errs.forEach(e => {
-            alert(`Name ${e}`)
+            alert(`Name ${e}. Please click "New here?" again to enter a new name.`)
                 })
             } else {
-                alert(`You have created username: ${json['data']['attributes']['name']}.\nPlease remember this for the player entry up after you have entered your search.`)
+                alert(`You have created username: ${json['data']['attributes']['name']}.\nPlease remember this for the player entry after you have entered your search.`)
             }
         });
     }
