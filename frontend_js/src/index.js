@@ -273,6 +273,7 @@ function newPlayer(player) {
 };
 
 function renderMatches() {
+    getAllLikes();
     const matches = Yelp.matches(NUMPLAYERS)
     if (!matches[0]){
         noMatch()
@@ -325,12 +326,9 @@ function renderMatches() {
             };
         };
     };
-    getAllLikes();
 };
 
 function noMatch() {
-    const matchDiv = document.querySelector("#match")
-    // matchDiv.style['display'] = 'none'   
     const matchMess = document.querySelector("#player")
     matchMess.innerHTML = "No Matches!"
     const ready = document.querySelector('button#ready')
@@ -350,7 +348,6 @@ function getAllLikes() {
                     })
                 .then(json => {
                     json['data']['attributes']['likes'].forEach( like => {
-                        // console.log(like.id)
                         allLikes.push(like.yelp_id)
                     })
                     return user
@@ -374,7 +371,6 @@ function renderMegamatch(allLikes) {
             megaId.push(sorted[i])
         }
     }
-    // console.log(megaId)
 
     const likesConfig = {
         method: "POST",
@@ -388,7 +384,11 @@ function renderMegamatch(allLikes) {
             return resp.json()
         })
         .then(json => {
-            megaNames.push(json["name"])
+            let name = json['name']
+            if (name) {
+            megaNames.push(name)
+            }
+            console.log(name)
             return id
         })
         .then( id => {
@@ -403,16 +403,14 @@ function renderMegamatch(allLikes) {
     
 };
 
-function megaList(megaNames) {
-    if (megaNames[0]) {
+function megaList(names) {
+    if (names[0]) {
         const megaDiv = document.querySelector('div#mega')
-        // megaDiv.style['display'] = "block"
-        
         const megaH2 = document.querySelector('h2#mega')
         megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)[0]} have all liked on Chicken Tinder... `
-        for (let i=0; i<megaNames.length-1; i++){
+        for (let i=0; i<names.length-1; i++){
         let megaP = document.createElement('p')
-        megaP.innerHTML = megaNames[i]
+        megaP.innerHTML = names[i]
         megaDiv.appendChild(megaP)
         };
     };
