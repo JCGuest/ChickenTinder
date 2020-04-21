@@ -340,30 +340,58 @@ function noMatch() {
 };
 
 function getAllLikes() {
-    const allLikes = []
-    USERARY.forEach( user => {
-        fetch(`http://localhost:3000/users/likes?name=${user}`)
+    let dualLikes = []
+    for (let i=0; i<USERARY.length; i++) {
+        fetch(`http://localhost:3000/users/likes?name=${USERARY[i]}`)
                 .then(resp => {
                     return resp.json() 
-                    })
+                })
                 .then(json => {
-                    json['data']['attributes']['likes'].forEach( like => {
-                        allLikes.push(like.yelp_id)
-                    })
-                    return user
+                    dualLikes.push(json['data']['attributes']['likes'])
+                    // return allLikes
                 })
-                .then(user => {
-                    if (user === USERARY.slice(-1)[0]) {
-                        renderMegamatch(allLikes)
-                    }
-                })
+                // .then(allLikes => {
+                //     console.log(allLikes)
+                // })
                 .catch(err => {
                     console.log(err)
                     }); 
-    });
-};
 
-function renderMegamatch(allLikes) {
+    }
+    renderMegamatch(dualLikes);
+ }
+
+    // USERARY.forEach( user => {
+    //     fetch(`http://localhost:3000/users/likes?name=${user}`)
+    //             .then(resp => {
+    //                 return resp.json() 
+    //             })
+    //             .then(json => {
+    //                 allLikes.push(json['data']['attributes']['likes'])
+    //             })
+    //             .then(user => {
+    //                 console.log(allLikes)
+    //                 if (user == USERARY.slice(-1)[0]) {
+    //                     // renderMegamatch(allLikes)
+    //                 console.log("truedat")
+    //                 }
+    //             })
+    //             .catch(err => {
+    //                 console.log(err)
+    //                 }); 
+    // });
+// };
+
+function renderMegamatch(dualLikes) {
+    LIKED = dualLikes 
+    // console.log(d)
+    let allLikes = []
+    dualLikes.forEach( arry => {
+        arry.forEach(like => {
+            allLikes.push(like.yelp_id)
+        })
+    }) 
+// console.log(allLikes)
     let sorted = allLikes.slice().sort()
     let megaId = []
     for (let i=0; i<sorted.length-1; i++ ){
@@ -402,6 +430,7 @@ function renderMegamatch(allLikes) {
     });
     
 };
+
 
 function megaList(names) {
     if (names[0]) {
