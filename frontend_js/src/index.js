@@ -54,7 +54,7 @@ function deleter(e){
     let user = prompt('Enter the name of the account you would like to delete.')
     if (user) {
         const userConfig = {
-            method: 'DELETE',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'}
                 };
@@ -63,9 +63,9 @@ function deleter(e){
                     return resp.json()
                 })
                 .then(json => {
-                    console.log(json)
+                    alert(json['message'])
                 }).catch(err => {
-                    console.log(err)
+                    alert(err)
                 })
     };
     e.target.removeEventListener('click', deleter)

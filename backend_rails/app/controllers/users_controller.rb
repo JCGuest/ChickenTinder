@@ -29,7 +29,7 @@ class UsersController < ApplicationController
         user = User.find_by(name: params[:name])
         user.destroy 
         render json: {
-            'message': "Delted user #{params[:name]}"
+            'message': "Delted user: #{params[:name]}"
         }
     end
 
