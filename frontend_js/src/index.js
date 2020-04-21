@@ -63,9 +63,11 @@ function deleter(e){
                     return resp.json()
                 })
                 .then(json => {
+                    if (json['message']) {
                     alert(json['message'])
+                    }
                 }).catch(err => {
-                    alert(err)
+                    console.log(err)
                 })
     };
     e.target.removeEventListener('click', deleter)
@@ -363,7 +365,7 @@ function noMatch() {
 };
 
 function getAllLikes() {
-    let dualLikes = {}
+    const dualLikes = []
     for (let i=0; i<USERARY.length; i++) {
         fetch(`http://localhost:3000/users/likes?name=${USERARY[i]}`)
                 .then(resp => {
@@ -371,42 +373,17 @@ function getAllLikes() {
                 })
                 .then(json => {
                     dualLikes.push(json['data']['attributes']['likes'])
-                    // return allLikes
+                    return dualLikes
                 })
-                // .then(allLikes => {
-                //     console.log(allLikes)
-                // })
                 .catch(err => {
                     console.log(err)
                     }); 
 
-    }
+    };
     renderMegamatch(dualLikes)
- }
-
-    // USERARY.forEach( user => {
-    //     fetch(`http://localhost:3000/users/likes?name=${user}`)
-    //             .then(resp => {
-    //                 return resp.json() 
-    //             })
-    //             .then(json => {
-    //                 allLikes.push(json['data']['attributes']['likes'])
-    //             })
-    //             .then(user => {
-    //                 console.log(allLikes)
-    //                 if (user == USERARY.slice(-1)[0]) {
-    //                     // renderMegamatch(allLikes)
-    //                 console.log("truedat")
-    //                 }
-    //             })
-    //             .catch(err => {
-    //                 console.log(err)
-    //                 }); 
-    // });
-// };
+ };
 
 function renderMegamatch(dualLikes) {
-    // LIKED = dualLikes 
     // console.log(dualLikes.length)
     if (dualLikes.length === USERARY.length) {
     let allLikes = []
@@ -415,7 +392,6 @@ function renderMegamatch(dualLikes) {
             allLikes.push(like.yelp_id)
         })
     }) 
-// console.log(allLikes)
     let sorted = allLikes.slice().sort()
     let megaId = []
     for (let i=0; i<sorted.length-1; i++ ){
