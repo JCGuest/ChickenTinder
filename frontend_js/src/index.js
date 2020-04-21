@@ -12,9 +12,10 @@ const yelps = document.querySelector('div#yelp-wrap')
 // toggle for testing
 yelps.style['display'] = 'none'
 // const yelpInfo = document.querySelector('div#yelp-info')
-newPromp = document.querySelector('a#new-user')
+const newPromp = document.querySelector('a#new-user')
 newPromp.addEventListener('click', prompter)
-
+const deleteProm = document.querySelector('a#delete')
+deleteProm.addEventListener('click', deleter)
 function toggleUserName() {
     if (userInfo.style['display'] == 'none') {
         userInfo.style['display'] = 'block'
@@ -47,6 +48,28 @@ btnNext.addEventListener('click', function nex() {
         createGame()
     };
 })
+
+function deleter(e){
+    e.preventDefault()
+    let user = prompt('Enter the name of the account you would like to delete.')
+    if (user) {
+        const userConfig = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'}
+                };
+                fetch(`http://localhost:3000/users/delete?name=${user}`, userConfig)
+                .then(resp => {
+                    return resp.json()
+                })
+                .then(json => {
+                    console.log(json)
+                }).catch(err => {
+                    console.log(err)
+                })
+    };
+    e.target.removeEventListener('click', deleter)
+};
 
 function prompter(e){
     e.preventDefault()
@@ -340,7 +363,7 @@ function noMatch() {
 };
 
 function getAllLikes() {
-    let dualLikes = []
+    let dualLikes = {}
     for (let i=0; i<USERARY.length; i++) {
         fetch(`http://localhost:3000/users/likes?name=${USERARY[i]}`)
                 .then(resp => {
@@ -358,7 +381,7 @@ function getAllLikes() {
                     }); 
 
     }
-    renderMegamatch(dualLikes);
+    renderMegamatch(dualLikes)
  }
 
     // USERARY.forEach( user => {
@@ -383,8 +406,9 @@ function getAllLikes() {
 // };
 
 function renderMegamatch(dualLikes) {
-    LIKED = dualLikes 
-    // console.log(d)
+    // LIKED = dualLikes 
+    // console.log(dualLikes.length)
+    if (dualLikes.length === USERARY.length) {
     let allLikes = []
     dualLikes.forEach( arry => {
         arry.forEach(like => {
@@ -428,6 +452,7 @@ function renderMegamatch(dualLikes) {
             console.log(err)
         });
     });
+  }
     
 };
 

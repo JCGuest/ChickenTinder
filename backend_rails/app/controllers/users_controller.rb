@@ -25,6 +25,14 @@ class UsersController < ApplicationController
         render json: UserSerializer.new(user)
     end
 
+    def delete 
+        user = User.find_by(name: params[:name])
+        user.destroy 
+        render json: {
+            'message': "Delted user #{params[:name]}"
+        }
+    end
+
     private
 
     def user_params
