@@ -85,7 +85,7 @@ if (user) {
         headers: {
             'Content-Type': 'application/json'}
             };
-    fetch(`http://localhost:3000/users/create?&name=${user}`, userConfig)
+    fetch(`http://localhost:3000/users/create?&user[name]=${user}`, userConfig)
     .then(resp => {
         return resp.json()
     })        
@@ -136,7 +136,7 @@ function createGame() {
                 };
         for (let i=1; i <= NUMPLAYERS; i++){
             let name = document.querySelector(`input#player-${i}-name`).value
-                fetch(`http://localhost:3000/users/login?&name=${name}`, userConfig)
+                fetch(`http://localhost:3000/users/login?&user[name]=${name}`, userConfig)
                 .then(response => {
                     return response.json()
                     })
@@ -256,6 +256,7 @@ function yelpRender(i, player) {
              })
              .then(json => {
                 newOrRender(i, player)
+                console.log(json['data'])
                 return json 
              })
              .catch(err => {

@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+
   def create
     user = User.find_by(name: params[:username])
     like = user.likes.find_by(yelp_id: params[:yelp_id])
