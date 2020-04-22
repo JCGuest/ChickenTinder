@@ -14,8 +14,8 @@ yelps.style['display'] = 'none'
 // const yelpInfo = document.querySelector('div#yelp-info')
 const newPromp = document.querySelector('a#new-user')
 newPromp.addEventListener('click', prompter)
-const deleteProm = document.querySelector('a#delete')
-deleteProm.addEventListener('click', deleter)
+// const deleteProm = document.querySelector('a#delete')
+// deleteProm.addEventListener('click', deleter)
 function toggleUserName() {
     if (userInfo.style['display'] == 'none') {
         userInfo.style['display'] = 'block'
@@ -49,29 +49,29 @@ btnNext.addEventListener('click', function nex() {
     };
 })
 
-function deleter(e){
-    e.preventDefault()
-    let user = prompt('Enter the name of the account you would like to delete.')
-    if (user) {
-        const userConfig = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'}
-                };
-                fetch(`http://localhost:3000/users/delete?name=${user}`, userConfig)
-                .then(resp => {
-                    return resp.json()
-                })
-                .then(json => {
-                    if (json['message']) {
-                    alert(json['message'])
-                    }
-                }).catch(err => {
-                    console.log(err)
-                })
-    };
-    e.target.removeEventListener('click', deleter)
-};
+// function deleter(e){
+//     e.preventDefault()
+//     let user = prompt('Enter the name of the account you would like to delete.')
+//     if (user) {
+//         const userConfig = {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'}
+//                 };
+//                 fetch(`http://localhost:3000/users/delete?name=${user}`, userConfig)
+//                 .then(resp => {
+//                     return resp.json()
+//                 })
+//                 .then(json => {
+//                     if (json['message']) {
+//                     alert(json['message'])
+//                     }
+//                 }).catch(err => {
+//                     console.log(err)
+//                 })
+//     };
+//     e.target.removeEventListener('click', deleter)
+// };
 
 function prompter(e){
     e.preventDefault()
