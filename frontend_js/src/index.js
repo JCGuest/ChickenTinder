@@ -75,10 +75,7 @@ btnNext.addEventListener('click', function nex() {
 
 function prompter(e){
     e.preventDefault()
-    let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. \
-    Below you can enter a search term and location just like you would on Yelp, select the number \
-    of players, and vote on each result. Each result that gets voted for by each player will be shown after \
-    all players have gone. Please enter a username here that is unique because I chose not to use passwords. You will then use that name when prompted after the serch is submitted.')
+    let user = prompt('Welcome to Chicken Tinder. Its basically a game for choosing where to eat. Below you can enter a search term and location just like you would on Yelp, select the number of players, and vote on each result. Each result that gets voted for by each player will be shown after all players have gone. Please enter a username here that is unique because I chose not to use passwords. You will then use that name when prompted after the search is submitted.')
 if (user) {
     const userConfig = {
         method: 'POST',
