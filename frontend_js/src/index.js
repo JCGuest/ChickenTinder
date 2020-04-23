@@ -104,6 +104,20 @@ if (user) {
   };
 
 function createGame() {
+    fetch(`http://localhost:3000/games/new`)
+    .then( resp => {
+        return resp.json()
+    })
+    .then( json => {
+        GAMEID = json["data"]["attributes"]['id']
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    createUsers()
+}
+
+function createUsers() {
     toggleUserName()
     const userParent = document.querySelector('div#user-parent')
     for (let i=1; i<= NUMPLAYERS-1; i++) {
@@ -136,7 +150,7 @@ function createGame() {
                 };
         for (let i=1; i <= NUMPLAYERS; i++){
             let name = document.querySelector(`input#player-${i}-name`).value
-                fetch(`http://localhost:3000/users/login?&user[name]=${name}`, userConfig)
+                fetch(`http://localhost:3000/users/login?&user[name]=${name}&user[game_id]=${GAMEID}`, userConfig)
                 .then(response => {
                     return response.json()
                     })
@@ -366,26 +380,35 @@ function noMatch() {
 };
 
 function getAllLikes() {
-    const dualLikes = []
-    for (let i=0; i<USERARY.length; i++) {
-        fetch(`http://localhost:3000/users/likes?name=${USERARY[i]}`)
-                .then(resp => {
-                    return resp.json() 
-                })
-                .then(json => {
-                    dualLikes.push(json['data']['attributes']['likes'])
-                    return dualLikes
-                })
-                .catch(err => {
-                    console.log(err)
-                    }); 
+    fetch(`http://localhost:3000/games/${GAMEID}`)
+    .then(resp => {
+        return resp.json()
+    })
+    .then(json => {
+        console.log(json['data'])
+    })
+}
 
-    };
-    renderMegamatch(dualLikes)
- };
+// function getAllLikes() {
+//     const dualLikes = []
+//     for (let i=0; i<USERARY.length; i++) {
+//         fetch(`http://localhost:3000/users/${USERARY[i]}/likes`)
+//                 .then(resp => {
+//                     return resp.json() 
+//                 })
+//                 .then(json => {
+//                     dualLikes.push(json['data']['attributes']['likes'])
+//                     return dualLikes
+//                 })
+//                 .catch(err => {
+//                     console.log(err)
+//                     }); 
 
-function renderMegamatch(dualLikes) {
-    // console.log(dualLikes.length)
+//     };
+//     renderMegamatch(dualLikes)
+//  };
+
+ function renderMegamatch(dualLikes) {
     if (dualLikes.length === USERARY.length) {
     let allLikes = []
     dualLikes.forEach( arry => {
@@ -435,11 +458,13 @@ function renderMegamatch(dualLikes) {
 
 
 function megaList(names) {
+    console.log(names)
     if (names[0]) {
+        console.log(names)
         const megaDiv = document.querySelector('div#mega')
         const megaH2 = document.querySelector('h2#mega')
         megaH2.innerHTML = `A list of all businesses ${nameParse(USERARY)} and ${USERARY.slice(-1)[0]} have all liked on Chicken Tinder... `
-        for (let i=0; i<names.length-1; i++){
+        for (let i = 0; i <= names.length - 1; i++){
         let megaP = document.createElement('p')
         megaP.innerHTML = names[i]
         megaDiv.appendChild(megaP)

@@ -1,4 +1,5 @@
 class Game < ApplicationRecord
+has_many :users
 @api_key = ENV['KEY']
 @api_host = "https://api.yelp.com"
 @search_path = "/v3/businesses/search"

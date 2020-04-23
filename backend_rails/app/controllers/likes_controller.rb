@@ -1,5 +1,11 @@
 class LikesController < ApplicationController
 
+  def index 
+    user = User.find_by(name: params[:name])
+    likes = user.likes.all
+    render json: LikeSerializer.new(likes)
+  end
+
   def create
     user = User.find_by(name: params[:username])
     like = user.likes.find_by(yelp_id: params[:yelp_id])
