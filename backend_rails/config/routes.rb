@@ -10,7 +10,6 @@ get 'games/:id', to: 'games#show'
 post '/users/create', to: 'users#create'
 post '/users/login', to: 'users#login'
 patch '/users/:id', to: 'users#update'
-# post '/users/delete', to: 'users#delete'
 
 # #likes 
 post '/likes', to: 'likes#create'

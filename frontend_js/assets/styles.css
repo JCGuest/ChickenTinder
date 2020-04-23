@@ -80,6 +80,7 @@ div#yelp-info {
     height: 99%;
     border-color: #A6082D;
     background-color: rgb(248, 238, 220);
+    overflow: auto;
 }
 
 div#yelp-wrap {
@@ -208,7 +209,6 @@ div#match-parent {
 }
 
 div#match {
-    /* display: none; */
     text-align: center;
 }
 

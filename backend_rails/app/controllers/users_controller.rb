@@ -14,8 +14,12 @@ class UsersController < ApplicationController
 
     def login
         user = User.find_by(name: params[:user][:name])
-        # user.game_id = params[:user][:game_id]
-        user.update(user_params)
+        if !user
+            user = User.new(user_params)
+            user.save 
+        else
+            user.update(user_params)
+        end
         render json: UserSerializer.new(user)
     end
 

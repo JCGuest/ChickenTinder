@@ -114,10 +114,10 @@ function createGame() {
     .catch(err => {
         console.log(err)
     })
-    createUsers()
+    findUsers()
 }
 
-function createUsers() {
+function findUsers() {
     toggleUserName()
     const userParent = document.querySelector('div#user-parent')
     for (let i=1; i<= NUMPLAYERS-1; i++) {
@@ -270,7 +270,6 @@ function yelpRender(i, player) {
              })
              .then(json => {
                 newOrRender(i, player)
-                console.log(json['data'])
                 return json 
              })
              .catch(err => {
@@ -346,7 +345,7 @@ function renderMatches() {
         }
 
         function ifMatches(winners, matchParent) {
-            for (let i = 1; i <= NUMPLAYERS-1; i++) {
+            for (let i = 1; i < matches.length; i++) {
                 let y = matches[i]
                 let copy = winners.cloneNode(true)
                 matchParent.appendChild(copy)
@@ -387,79 +386,17 @@ function getAllLikes() {
     .then(json => {
         megaList(json['likes'])
     })
-}
+};
 
-// function getAllLikes() {
-//     const dualLikes = []
-//     for (let i=0; i<USERARY.length; i++) {
-//         fetch(`http://localhost:3000/users/${USERARY[i]}/likes`)
-//                 .then(resp => {
-//                     return resp.json() 
-//                 })
-//                 .then(json => {
-//                     dualLikes.push(json['data']['attributes']['likes'])
-//                     return dualLikes
-//                 })
-//                 .catch(err => {
-//                     console.log(err)
-//                     }); 
+function megaList(allLikes) {
+    const sorted = allLikes.slice().sort()
+    const names = []
+    for (let i = 0; i < sorted.length - 1; i++ ){
+        if (sorted[i+1] === sorted[i]){
+            names.push(sorted[i])
+        };
+    };
 
-//     };
-//     renderMegamatch(dualLikes)
-//  };
-
-//  function renderMegamatch(allLikes) {
-//      console.log(allLikes)
-    // if (dualLikes.length === USERARY.length) {
-    // let allLikes = []
-    // dualLikes.forEach( arry => {
-    //     arry.forEach(like => {
-    //         allLikes.push(like.yelp_id)
-    //     })
-    // }) 
-    // let sorted = allLikes.slice().sort()
-    // let megaId = []
-    // for (let i = 0; i < sorted.length - 1; i++ ){
-    //     if (sorted[i+1] === sorted[i]){
-    //         megaId.push(sorted[i])
-    //     }
-    // }
-
-    // const likesConfig = {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json"}
-    // };
-    // const megaNames = []
-    // megaId.forEach( id => {
-    // fetch(`http://localhost:3000/games/business?business_id=${id}`, likesConfig)
-    //     .then(resp => {
-    //         return resp.json()
-    //     })
-    //     .then(json => {
-    //         let name = json['name']
-    //         if (name) {
-    //         megaNames.push(name)
-//     //         }
-//             console.log(name)
-//             return id
-//         })
-//         .then( id => {
-//             if (id === megaId[megaId.length-1]) {
-//                 megaList(megaNames)
-//             }
-//         })
-//         .catch(err => {
-//             console.log(err)
-//         });
-//     });
-// //   }
-    
-// };
-
-
-function megaList(names) {
-    console.log(names)
     if (names[0]) {
         console.log(names)
         const megaDiv = document.querySelector('div#mega')
