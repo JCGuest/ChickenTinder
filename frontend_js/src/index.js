@@ -380,12 +380,12 @@ function noMatch() {
 };
 
 function getAllLikes() {
-    fetch(`http://localhost:3000/games/${GAMEID}`)
+    fetch(`http://localhost:3000/games/${GAMEID}/likes`)
     .then(resp => {
         return resp.json()
     })
     .then(json => {
-        console.log(json['data'])
+        megaList(json['likes'])
     })
 }
 
@@ -408,53 +408,54 @@ function getAllLikes() {
 //     renderMegamatch(dualLikes)
 //  };
 
- function renderMegamatch(dualLikes) {
-    if (dualLikes.length === USERARY.length) {
-    let allLikes = []
-    dualLikes.forEach( arry => {
-        arry.forEach(like => {
-            allLikes.push(like.yelp_id)
-        })
-    }) 
-    let sorted = allLikes.slice().sort()
-    let megaId = []
-    for (let i=0; i<sorted.length-1; i++ ){
-        if (sorted[i+1] == sorted[i]){
-            megaId.push(sorted[i])
-        }
-    }
+//  function renderMegamatch(allLikes) {
+//      console.log(allLikes)
+    // if (dualLikes.length === USERARY.length) {
+    // let allLikes = []
+    // dualLikes.forEach( arry => {
+    //     arry.forEach(like => {
+    //         allLikes.push(like.yelp_id)
+    //     })
+    // }) 
+    // let sorted = allLikes.slice().sort()
+    // let megaId = []
+    // for (let i = 0; i < sorted.length - 1; i++ ){
+    //     if (sorted[i+1] === sorted[i]){
+    //         megaId.push(sorted[i])
+    //     }
+    // }
 
-    const likesConfig = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"}
-    };
-    const megaNames = []
-    megaId.forEach( id => {
-    fetch(`http://localhost:3000/games/business?business_id=${id}`, likesConfig)
-        .then(resp => {
-            return resp.json()
-        })
-        .then(json => {
-            let name = json['name']
-            if (name) {
-            megaNames.push(name)
-            }
-            console.log(name)
-            return id
-        })
-        .then( id => {
-            if (id === megaId[megaId.length-1]) {
-                megaList(megaNames)
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        });
-    });
-  }
+    // const likesConfig = {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json"}
+    // };
+    // const megaNames = []
+    // megaId.forEach( id => {
+    // fetch(`http://localhost:3000/games/business?business_id=${id}`, likesConfig)
+    //     .then(resp => {
+    //         return resp.json()
+    //     })
+    //     .then(json => {
+    //         let name = json['name']
+    //         if (name) {
+    //         megaNames.push(name)
+//     //         }
+//             console.log(name)
+//             return id
+//         })
+//         .then( id => {
+//             if (id === megaId[megaId.length-1]) {
+//                 megaList(megaNames)
+//             }
+//         })
+//         .catch(err => {
+//             console.log(err)
+//         });
+//     });
+// //   }
     
-};
+// };
 
 
 function megaList(names) {

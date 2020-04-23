@@ -14,7 +14,8 @@ class UsersController < ApplicationController
 
     def login
         user = User.find_by(name: params[:user][:name])
-        user.game_id = params[:user][:game_id]
+        # user.game_id = params[:user][:game_id]
+        user.update(user_params)
         render json: UserSerializer.new(user)
     end
 
@@ -37,7 +38,5 @@ class UsersController < ApplicationController
     def user_params 
         params.require(:user).permit(:name, :game_id)
     end
-    # def user_params
-    #     params.permit(:name)
-    # end
+
 end

@@ -1,5 +1,13 @@
 class GamesController < ApplicationController
 
+    def likes 
+        game = Game.find(params[:id])
+        likes = game.likes
+        render json: {
+            "likes": likes
+        }
+    end
+
     def new 
         game = Game.new 
         game.save

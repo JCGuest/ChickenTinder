@@ -24,5 +24,15 @@ has_many :users
     return response.parse
   end
 
+  def likes 
+    all_likes = []
+    self.users.all.each do |user|
+      user.likes.all.each do |like|
+        all_likes.push(like.name)
+      end
+    end
+    return all_likes
+  end
+
 end
 
