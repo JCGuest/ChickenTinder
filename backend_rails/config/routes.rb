@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+root :to => 'home#index'
 # games
 post '/games/search', to: 'games#search'
 post '/games/business', to: 'games#business'
