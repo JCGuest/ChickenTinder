@@ -1,8 +1,6 @@
 class Game < ApplicationRecord
 has_many :users
-# @api_key = ENV['YELP']
-# could not get the key from .env file on heroku so im posting the string here for now>>
-@api_key = 'H--Ac7QvhOT1bu7QBzQGMAF3XXMTQmDn8RY0y6Jzeo-D6oDT306_doi7acESoaswuPdqLPEUxgknOLudIJ5MptdONvh7AQHx9f-kbPT6vQ3OfQ-ssEkjYy-cPXiFXnYx'
+@api_key = ENV['YELP']
 @api_host = "https://api.yelp.com"
 @search_path = "/v3/businesses/search"
 @search_limit = 10
