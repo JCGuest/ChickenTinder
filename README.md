@@ -1,5 +1,5 @@
 ![Chickedn Tinder Meme](/frontend/assets/chickentindermeme.png)
-#### The original inspration for this application comes from this meme.
+###### The original inspration for this application comes from this meme.
 
 # Chicken Tinder
 
