@@ -1,4 +1,4 @@
-class GamesController < ApplicationController
+class GamesController < ActionController::API
 
     def likes 
         game = Game.find(params[:id])

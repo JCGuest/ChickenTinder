@@ -1,2 +1,3 @@
 ./config/master.key
 .env
+./backend_rails/vendor/bundle/

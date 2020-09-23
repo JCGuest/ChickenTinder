@@ -1,4 +1,4 @@
-class LikesController < ApplicationController
+class LikesController < ActionController::API
 
   def create
     user = User.find_by(name: params[:username])
