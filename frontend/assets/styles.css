@@ -11,7 +11,6 @@ div.main {
     height: 3500px;
     background-color: rgb(248, 238, 220);
     margin-left: 02%;
-    /* margin-right: auto; */
     border-radius: 20px;
     border-style: solid;
     text-align: center;
@@ -260,9 +259,3 @@ a#new-user {
     font-size: 20px;
     margin-left: 70%;
 }
-
-/* a#delete {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    margin-left: 75%;
-} */
