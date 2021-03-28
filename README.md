@@ -6,7 +6,7 @@
 
 This is a "Tinder-style" application that would be used as a game for multiple people to play. It uses the Yelp "Fusion API" and gets Yelp results for the user, creates player names and asks the users to each vote one at a time for each result. Each result that was voted for by all players is then shown in a list of matches with information and links to the results Yelp pages.
 
-This is a live application you can use online. Check it out [here](http://immense-scrubland-35263.herokuapp.com/)
+This is a live application you can use online. Check it out at [ChickenTinder.com](http://immense-scrubland-35263.herokuapp.com/)
 
 ## Getting Started
 
